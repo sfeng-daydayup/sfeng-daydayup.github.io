@@ -5,6 +5,7 @@ author: sfeng
 date: 2024-06-28 19:32 +0800
 categories: [Blogging, Misc]
 tags: [misc]
+lang: zh
 pin: true
 ---
 
