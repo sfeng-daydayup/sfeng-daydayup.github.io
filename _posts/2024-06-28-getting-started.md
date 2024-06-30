@@ -1,6 +1,7 @@
 ---
 title: Getting Started
 description: 博客终于开张了，用一个开场白来恭喜自己吧！
+author: sfeng
 date: 2024-06-28 19:32 +0800
 categories: [Blogging, Misc]
 tags: [misc]
