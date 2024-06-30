@@ -117,8 +117,8 @@ comments:
     issue_term: # < url | pathname | title | ...>
   # Giscus options › https://giscus.app
   giscus:
-    repo: # <gh-username>/<repo>
-    repo_id:
+    repo: sfeng-daydayup/sfeng-daydayup.github.io # <gh-username>/<repo>
+    repo_id: sfeng-daydayup.github.io
     category:
     category_id:
     mapping: # optional, default to 'pathname'
