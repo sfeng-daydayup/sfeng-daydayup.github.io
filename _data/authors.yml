@@ -6,6 +6,8 @@
 #   url: {homepage_of_author}
 # -------------------------------------
 
-sfeng:
-  name: sfeng
-  url:  https://sfeng-daydayup.github.io
+#sfeng:
+#  name: sfeng
+#  url:  https://sfeng-daydayup.github.io
+
+author: sfeng
