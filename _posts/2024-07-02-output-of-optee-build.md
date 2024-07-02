@@ -11,14 +11,14 @@ lang: zh
 &emsp;&emsp;关于OPTEE的build and run，官方文档写的很详细([**OPTEE OS Building**](https://optee.readthedocs.io/en/latest/building/gits/optee_os.html))。这里主要介绍输出的几个binary各有什么玄机。另外OPTEE OS的版本为4.0.0。  
 &emsp;&emsp;OPTEE build输出的文件是由[**link.mk**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/link.mk#L185)决定的。当然在compile log里也有相应的体现，如下：  
 
->  LD      out/arm/platform/platform_flavor/release/core/tee.elf
->  OBJDUMP out/arm/platform/platform_flavor/release/core/tee.dmp
->  GEN     out/arm/platform/platform_flavor/release/core/tee.bin
->  GEN     out/arm/platform/platform_flavor/release/core/tee-header_v2.bin
->  GEN     out/arm/platform/platform_flavor/release/core/tee-pager_v2.bin
->  GEN     out/arm/platform/platform_flavor/release/core/tee-pageable_v2.bin
->  GEN     out/arm/platform/platform_flavor/release/core/tee.symb_sizes
->  GEN     out/arm/platform/platform_flavor/release/core/tee-raw.bin
+> LD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out/arm/platform/platform_flavor/release/core/tee.elf  
+> OBJDUMP&nbsp;out/arm/platform/platform_flavor/release/core/tee.dmp  
+> GEN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out/arm/platform/platform_flavor/release/core/tee.bin  
+> GEN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out/arm/platform/platform_flavor/release/core/tee-header_v2.bin  
+> GEN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out/arm/platform/platform_flavor/release/core/tee-pager_v2.bin  
+> GEN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out/arm/platform/platform_flavor/release/core/tee-pageable_v2.bin  
+> GEN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out/arm/platform/platform_flavor/release/core/tee.symb_sizes  
+> GEN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out/arm/platform/platform_flavor/release/core/tee-raw.bin
 
 &emsp;&emsp;ELF文件是另外一个大的话题，这里主要关注的*.bin。TEE OS属于Secure Boot中的一环，相应的TEE OS的binary也会放在Secure Boot的Package Layout里。了解各个binary包含的内容有助于做出对应的选择。  
 &emsp;&emsp;OPTEE OS用一个Python脚本([**gen_tee_bin.py**](https://github.com/OP-TEE/optee_os/blob/4.0.0/scripts/gen_tee_bin.py#L383))来生成这些bin文件。官方文档([**Partition of The Binary**](https://optee.readthedocs.io/en/latest/architecture/core.html#partitioning-of-the-binary))有相应解释。但阅读这个Python脚本更加有助于深入了解其内容。官方文档里介绍了两种Image Packing Format：  
