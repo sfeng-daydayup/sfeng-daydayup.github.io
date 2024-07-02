@@ -9,8 +9,8 @@ lang: zh
 ---
 
 &emsp;&emsp;关于OPTEE的build and run，官方文档写的很详细([**OPTEE OS Building**](https://optee.readthedocs.io/en/latest/building/gits/optee_os.html))。这里主要介绍输出的几个binary各有什么玄机。另外OPTEE OS的版本为4.0.0。  
-&emsp;&emsp;OPTEE build输出的文件是由[**link.mk**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/link.mk#L185)决定的。当然在compile log里也有相应的体现，例子如下：  
-```Part of Build Log
+&emsp;&emsp;OPTEE build输出的文件是由[**link.mk**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/link.mk#L185)决定的。当然在compile log里也有相应的体现，如下：  
+```
   LD      out/arm/platform/platform_flavor/release/core/tee.elf
   OBJDUMP out/arm/platform/platform_flavor/release/core/tee.dmp
   GEN     out/arm/platform/platform_flavor/release/core/tee.bin
@@ -23,8 +23,8 @@ lang: zh
 
 &emsp;&emsp;ELF文件是另外一个大的话题，这里主要关注的*.bin。TEE OS属于Secure Boot中的一环，相应的TEE OS的binary也会放在Secure Boot的Package Layout里。了解各个binary包含的内容有助于做出对应的选择。  
 &emsp;&emsp;OPTEE OS用一个Python脚本([**gen_tee_bin.py**](https://github.com/OP-TEE/optee_os/blob/4.0.0/scripts/gen_tee_bin.py#L383))来生成这些bin文件。官方文档([Partition of The Binary](https://optee.readthedocs.io/en/latest/architecture/core.html#partitioning-of-the-binary))有相应解释。但阅读这个Python脚本更加有助于深入了解其内容。官方文档里介绍了两种Image Packing Format：
-V1(文档中并未定义V1，V1为作者方便命名自定义):  
-```Header Structure of V1
+Header Structure of V1(文档中并未定义V1，V1为作者方便命名自定义):  
+```
 #define OPTEE_MAGIC             0x4554504f
 #define OPTEE_VERSION           1
 #define OPTEE_ARCH_ARM32        0
@@ -43,8 +43,8 @@ struct optee_header {
 };
 ```
 
-V2:  
-```Header Structure of V2
+Header Structure of V2:  
+```
 #define OPTEE_IMAGE_ID_PAGER    0
 #define OPTEE_IMAGE_ID_PAGED    1
 
