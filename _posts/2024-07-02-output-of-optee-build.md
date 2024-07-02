@@ -10,16 +10,15 @@ lang: zh
 
 &emsp;&emsp;关于OPTEE的build and run，官方文档写的很详细([**OPTEE OS Building**](https://optee.readthedocs.io/en/latest/building/gits/optee_os.html))。这里主要介绍输出的几个binary各有什么玄机。另外OPTEE OS的版本为4.0.0。  
 &emsp;&emsp;OPTEE build输出的文件是由[**link.mk**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/link.mk#L185)决定的。当然在compile log里也有相应的体现，如下：  
-```
-  LD      out/arm/platform/platform_flavor/release/core/tee.elf
-  OBJDUMP out/arm/platform/platform_flavor/release/core/tee.dmp
-  GEN     out/arm/platform/platform_flavor/release/core/tee.bin
-  GEN     out/arm/platform/platform_flavor/release/core/tee-header_v2.bin
-  GEN     out/arm/platform/platform_flavor/release/core/tee-pager_v2.bin
-  GEN     out/arm/platform/platform_flavor/release/core/tee-pageable_v2.bin
-  GEN     out/arm/platform/platform_flavor/release/core/tee.symb_sizes
-  GEN     out/arm/platform/platform_flavor/release/core/tee-raw.bin
-```
+
+>  LD      out/arm/platform/platform_flavor/release/core/tee.elf
+>  OBJDUMP out/arm/platform/platform_flavor/release/core/tee.dmp
+>  GEN     out/arm/platform/platform_flavor/release/core/tee.bin
+>  GEN     out/arm/platform/platform_flavor/release/core/tee-header_v2.bin
+>  GEN     out/arm/platform/platform_flavor/release/core/tee-pager_v2.bin
+>  GEN     out/arm/platform/platform_flavor/release/core/tee-pageable_v2.bin
+>  GEN     out/arm/platform/platform_flavor/release/core/tee.symb_sizes
+>  GEN     out/arm/platform/platform_flavor/release/core/tee-raw.bin
 
 &emsp;&emsp;ELF文件是另外一个大的话题，这里主要关注的*.bin。TEE OS属于Secure Boot中的一环，相应的TEE OS的binary也会放在Secure Boot的Package Layout里。了解各个binary包含的内容有助于做出对应的选择。  
 &emsp;&emsp;OPTEE OS用一个Python脚本([**gen_tee_bin.py**](https://github.com/OP-TEE/optee_os/blob/4.0.0/scripts/gen_tee_bin.py#L383))来生成这些bin文件。官方文档([Partition of The Binary](https://optee.readthedocs.io/en/latest/architecture/core.html#partitioning-of-the-binary))有相应解释。但阅读这个Python脚本更加有助于深入了解其内容。官方文档里介绍了两种Image Packing Format：
@@ -75,7 +74,7 @@ struct optee_header_v2 {
   Header + Init
 - tee-header_v2.bin
   由于V2的Binary都是单独生成的，这里就是一个28B的follow V2 format的header。同样由于CFG_WITH_PAGER设的是n，nb_images这里为1，只有tee-page_v2.bin(文档里所谓Init)。
-  关于Header，官方文档里有句说明， “The header is only used by the loader of OP-TEE, not OP-TEE itself. ”，这应该也是为什么要单独生成的原因，developer可以根据自己实际需求和其他Binary pack到一起。
+  关于Header，官方文档里有句说明:  "**The header is only used by the loader of OP-TEE, not OP-TEE itself.**" 这应该也是它为什么要单独生成的原因，developer可以根据自己实际需求和其他Binary pack到一起。
 - tee-pager_v2.bin
   在CFG_WITH_PAGER为n时，它几乎和objcopy -O binary tee.elf tee.bin的输出结果一样，只是最后pack了一些长度信息，可以忽略。也即它就是最终的可执行文件。
 - tee-pageable_v2.bin
