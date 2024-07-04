@@ -2,7 +2,7 @@
 layout: post
 title: Output of OPTEE Build
 author: sfeng
-date: 2024-07-02 11:56 +0800
+date: 2024-07-04 18:06 +0800
 categories: [Blogging, OPTEE]
 tags: [optee]
 lang: zh
