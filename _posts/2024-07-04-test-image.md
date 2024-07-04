@@ -8,4 +8,4 @@ tags: [test]
 lang: zh
 ---
 
-<img src="https://sfeng-daydayup.github.io/assets/img/optee_common.png" />
+![Desktop View](/assets/img/optee_common.png){: .normal }
