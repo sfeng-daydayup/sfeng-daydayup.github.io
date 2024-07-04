@@ -119,8 +119,8 @@ comments:
   giscus:
     repo: sfeng-daydayup/sfeng-daydayup.github.io # <gh-username>/<repo>
     repo_id: sfeng-daydayup.github.io
-    category:
-    category_id:
+    category: "blog_comments"
+    category_id: "DIC_kwDOMOxWls4CgkBQ"
     mapping: # optional, default to 'pathname'
     strict: # optional, default to '0'
     input_position: # optional, default to 'bottom'
