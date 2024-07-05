@@ -7,18 +7,19 @@ categories: [Blogging, OPTEE]
 tags: [optee]
 lang: zh
 ---
-&emsp;&emsp;OPTEE开发的第一步是增加所使用SoC的支持。这里分两种情况，一种是已经有同类SoC的支持，只是做一些差异化配置；一种则是一个全新的SoC。  
-&emsp;&emsp;增加一个全新的SoC的支持，需要在[OPTEE root path]/core/arch/arm(riscv)/下新建一个以plat-作为prefix的文件夹，例如plat-my_soc_name，或者plat-my_orgnization_name。目录下的主要文件为：  
+&emsp;&emsp;OPTEE开发的第一步是增加所使用SoC的支持。这里分两种情况，一种是已经有同类SoC的支持，只是做一些差异化配置，OPTEE叫做platform flavor；一种则是一个全新的platform。学会怎么增加一个platform，platform flavor自然不在话下。  
+&emsp;&emsp;增加一个全新的platform的支持，需要在[OPTEE root path]/core/arch/arm(riscv)/下新建一个以plat-作为prefix的文件夹，例如plat-my_soc_name，或者plat-my_orgnization_name。目录下的主要文件为：  
 ```
 conf.mk sub.mk platform_config.h main.c
-```  
+```
 - conf.mk  
   这个文件主要包含两个内容，一个是OPTEE的配置选项， 另一个是编译选项。  
   配置选项有两种写法，开发者可以根据需求选择方式。  
   ```
   1. CFG_SOMETHING ?= DEFAULT_VALUE               // may be overridden by external setup
   2. $(call force,CFG_SOMETHING,SPECIFIED_VALUE)  // can't be modified
-  ```  
+  ```
+
   配置选项主要有下面这些：  
   ```
   PLATFORM_FLAVOR          // default platform flavor
@@ -42,7 +43,8 @@ conf.mk sub.mk platform_config.h main.c
   CFG_8250_UART
   CFG_16550_UART
   CFG_PL011                // choose one if your SoC use one of them. Otherwise, write a new one
-  ```  
+  ```
+
   &emsp;&emsp;OPTEE还有很多optional的配置，作为基础配置，上面列的这些应该比较全了。  
   &emsp;&emsp;编译选项目前主要就是include core/arch/arm/cpu/xxx.mk。貌似没有更多选项。  
 - platform_config.h  
@@ -56,7 +58,8 @@ conf.mk sub.mk platform_config.h main.c
   UART BAUDRATE
   UART CLK IN HZ          // used to caculate the divider
   GIC BASE ADDRESS
-  ```  
+  ```
+  
   和platform flavor相关的一些配置也可以放在platform_config.h里，如果很多，建议分成另外一个文件，比如platform_config_flavor_xxx.h，然后在platform_config.h中include。  
 - sub.mk  
   当OPTEE的编译脚本根据指定的PLATFORM=my_platform找到相应的core/arch/arm/plat-my_platform目录后，sub.mk就会被include。它里面一般包含以下内容：  
