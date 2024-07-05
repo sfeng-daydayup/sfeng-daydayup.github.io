@@ -16,7 +16,7 @@ conf.mk  sub.mk  platform_config.h  main.c
   这个文件主要包含两个内容，一个是OPTEE的配置选项， 另一个是编译选项。  
   配置选项有两种写法，开发者可以根据需求选择方式。  
   1. CFG_SOMETHING ?= DEFAULT_VALUE               // may be overridden by external setup
-  2. $(call force,CFG_SOMETHING,SPECIFIED_VALUE)  // can't be modified
+  2. $(call force,CFG_SOMETHING,SPECIFIED_VALUE)  // can't be modified  
   配置选项主要有下面这些：  
   ```
   PLATFORM_FLAVOR          // default platform flavor
