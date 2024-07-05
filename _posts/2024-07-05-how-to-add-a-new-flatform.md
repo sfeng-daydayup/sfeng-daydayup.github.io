@@ -10,15 +10,15 @@ lang: zh
 &emsp;&emsp;OPTEE开发的第一步是增加所使用SoC的支持。这里分两种情况，一种是已经有同类SoC的支持，只是做一些差异化配置，OPTEE叫做platform flavor；一种则是一个全新的platform。学会怎么增加一个platform，platform flavor自然不在话下。  
 &emsp;&emsp;增加一个全新的platform的支持，需要在[OPTEE root path]/core/arch/arm(riscv)/下新建一个以plat-作为prefix的文件夹，例如plat-my_soc_name，或者plat-my_orgnization_name。目录下的主要文件为：  
 ```
-conf.mk sub.mk platform_config.h main.c
+conf.mk  sub.mk  platform_config.h  main.c
 ```
 - conf.mk  
   这个文件主要包含两个内容，一个是OPTEE的配置选项， 另一个是编译选项。  
   配置选项有两种写法，开发者可以根据需求选择方式。  
   ```
   1. CFG_SOMETHING ?= DEFAULT_VALUE               // may be overridden by external setup
-  2. $(call force,CFG_SOMETHING,SPECIFIED_VALUE)  // can't be modified
-  ```  
+  2. $(call force,CFG_SOMETHING,SPECIFIED_VALUE)  // can't be modified  
+  ```
 
   配置选项主要有下面这些：  
   ```
