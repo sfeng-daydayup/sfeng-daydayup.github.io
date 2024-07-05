@@ -18,7 +18,7 @@ conf.mk sub.mk platform_config.h main.c
   ```
   1. CFG_SOMETHING ?= DEFAULT_VALUE               // may be overridden by external setup
   2. $(call force,CFG_SOMETHING,SPECIFIED_VALUE)  // can't be modified
-  ```
+  ```  
 
   配置选项主要有下面这些：  
   ```
@@ -45,8 +45,8 @@ conf.mk sub.mk platform_config.h main.c
   CFG_PL011                // choose one if your SoC use one of them. Otherwise, write a new one
   ```
 
-  &emsp;&emsp;OPTEE还有很多optional的配置，作为基础配置，上面列的这些应该比较全了。  
-  &emsp;&emsp;编译选项目前主要就是include core/arch/arm/cpu/xxx.mk。貌似没有更多选项。  
+  OPTEE还有很多optional的配置，作为基础配置，上面列的这些应该比较全了。  
+  编译选项目前主要就是include core/arch/arm/cpu/xxx.mk。貌似没有更多选项。  
 - platform_config.h  
   这个文件是创建一个platform必须的，可以拿现有项目中的作为参考。  比如core/arch/arm/plat-hikey中的一些选项。
   ```
@@ -59,7 +59,7 @@ conf.mk sub.mk platform_config.h main.c
   UART CLK IN HZ          // used to caculate the divider
   GIC BASE ADDRESS
   ```
-  
+
   和platform flavor相关的一些配置也可以放在platform_config.h里，如果很多，建议分成另外一个文件，比如platform_config_flavor_xxx.h，然后在platform_config.h中include。  
 - sub.mk  
   当OPTEE的编译脚本根据指定的PLATFORM=my_platform找到相应的core/arch/arm/plat-my_platform目录后，sub.mk就会被include。它里面一般包含以下内容：  
