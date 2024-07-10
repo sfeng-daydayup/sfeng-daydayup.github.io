@@ -9,7 +9,7 @@ lang: zh
 ---
 
 &emsp;&emsp;前段时间刚好做了一个关于OPTEE的PPT，最近打算写一些关于OPTEE的文章，这篇先起个头。  
-&emsp;&emsp;关于OPTEE的介绍，官方文档在这里([**About OPTEE**](https://optee.readthedocs.io/en/latest/general/about.html))。OPTEE主要是基于ARM TrustZone Technology基础上打造出的一个Trused Execution Environment，文档中虽然提及它已经兼容其他有isolation technology的SoC，比如RISC-V，但本篇主要内容都是以ARM的SoC为基础。  
+&emsp;&emsp;关于OPTEE的介绍，官方文档在这里([**About OPTEE**](https://optee.readthedocs.io/en/latest/general/about.html))。OPTEE主要是基于ARM TrustZone Technology基础上打造出的一个Trused Execution Environment，文档中虽然提及它已经兼容其他有isolation technology的SoC，比如RISC-V，但本篇主要内容都是以ARMv8的SoC为基础。  
 ![Desktop View](/assets/img/optee_common.png){: .normal }
 &emsp;&emsp;上图显示了OPTEE包含的若干组件以及它们在runtime所运行的Exceptin Level。  
 - OPTEE OS  
