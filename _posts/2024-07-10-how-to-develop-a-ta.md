@@ -232,10 +232,9 @@ TEE_Result TA_InvokeCommandEntryPoint(void __maybe_unused *sess_ctx,
 
 &emsp;&emsp;这里列了一些主要函数，具体用法参看[**TEE Internal Core API Specification v1.3.1**](https://globalplatform.org/specs-library/tee-internal-core-api-specification/)。  
 
-好了，又总结了一篇，开心。  
+&emsp;&emsp;好了，又总结了一篇，开心。  
 
 ## References:
-{: data-toc-skip='' .mt-4 .mb-0 }
 [**Trusted Applications**](https://optee.readthedocs.io/en/latest/building/trusted_applications.html)  
 [**Hello World**](https://github.com/linaro-swg/hello_world/tree/master/ta)  
 [**TEE Internal Core API Specification v1.3.1**](https://globalplatform.org/specs-library/tee-internal-core-api-specification/)
