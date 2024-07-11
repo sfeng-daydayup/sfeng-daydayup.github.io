@@ -101,17 +101,22 @@ lang: zh
   {return TEE_ERROR_BAD_PARAMETERS;}
   ```
 &emsp;&emsp;上面就是开发一个TA必须要实现的4个文件，前三个名字是固定的，第四个开发者可以自己命名，最终体现在sub.mk里。这里需要注意的点还挺多的。  
+
 ## UUID
 {: data-toc-skip='' .mt-4 .mb-0 }
+
 &emsp;&emsp;UUID是TEE OS用来identify TA的唯一字段。在OPTEE里，从load TA，create instance到opensession，都需要用到UUID。在TA的四个文件里两个地方需要设置UUID。一个是Makefile里，用来命名生成的TA binary，拿hello world例子中UUID为例，生成的ta为**8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta**。另一个是user_ta_header_defines.h，用于赋值ta head里的字段。  
 &emsp;&emsp;关于UUID的生成，OPTEE官方文档给了几种方法，可以翻看[**TA Properties**](https://optee.readthedocs.io/en/latest/building/trusted_applications.html#ta-properties)这个章节。  
 
 ## TA_FLAGS
 {: data-toc-skip='' .mt-4 .mb-0 }
+
 &emsp;&emsp;TA_FLAGS的值对User TA的行为影响很大，上面加了些注释，这里还是与代码对照一下(依然以4.0.0为准)。  
 &emsp;&emsp;第一次open session的时候，OPTEE OS会根据TA的类型来load TA并创建该TA的instance和context(这个时候context里有个变量叫ref_count会设为1)，这个过程并不受这些flag的影响。第二次open session的时候，首先会根据UUID找到之前创建的context，再之后的过程就要受TA_FLAG制约了。  
 - TA_FLAG_SINGLE_INSTANCE  
-  &emsp;&emsp;这个flag不设的话，该TA就是一个Multiple Instance TA，在tee_ta_init_session_with_context这个function里会返回TEE_ERROR_ITEM_NOT_FOUND。注意了，这个时候OPTEE OS会重新load这个TA的binary去创建一个新的instance和context。新的instance拥有独立的text, rodata, data, bss, stack和heap。也就是open session几次，它就占用这些空间几份。这对tee内存的消耗是巨大的，所以使用multiple instance TA的时候要特别注意memory的使用情况。  
+  &emsp;&emsp;这个flag不设的话，该TA就是一个Multiple Instance TA，在tee_ta_init_session_with_context这个function里会返回TEE_ERROR_ITEM_NOT_FOUND。  
+  > 注意了，这个时候OPTEE OS会重新load这个TA的binary去创建一个新的instance和context。新的instance拥有独立的text, rodata, data, bss, stack和heap。也就是open session几次，它就占用这些空间几份。这对tee内存的消耗是巨大的，所以使用multiple instance TA的时候要特别注意memory的使用情况。
+  {: .prompt-warning }
   <https://github.com/OP-TEE/optee_os/blob/4.0.0/core/kernel/tee_ta_manager.c#L556>
 
   ```
@@ -180,6 +185,7 @@ lang: zh
 
 ## TA Entry Points
 {: data-toc-skip='' .mt-4 .mb-0 }
+
 &emsp;&emsp;总共五个必须实现的entry point，前四个不必多讲，TA_InvokeCommandEntryPoint是日常CA请求TA的secure service的入口函数。Linaro的example给了很好的模板，开发者定义自己的command ID和相应处理函数，按模板填入即可。  
 <https://github.com/linaro-swg/hello_world/blob/master/ta/hello_world_ta.c#L118>
 
@@ -213,6 +219,7 @@ TEE_Result TA_InvokeCommandEntryPoint(void __maybe_unused *sess_ctx,
 
 ## TEE Internal APIs
 {: data-toc-skip='' .mt-4 .mb-0 }
+
 &emsp;&emsp;前面有提过TA通过syscall来请求OPTEE OS提供的服务，而这些standard服务基本上上包装在GPD定义的TEE Internal API里。有以下几类：  
 - Trusted Core Framework API  
   TEE_Malloc , TEE_Free, TEE_Panic, TEE_OpenTASession, TEE_InvokeTACommand, TEE_CloseTASession  
