@@ -16,6 +16,8 @@ lang: zh
 > Linux： v5.15  
 {: .prompt-tip }
 
+### Current Situation
+
 &emsp;&emsp;OPTEE提供的方案叫做connection method。有以下几种：  
 <https://github.com/OP-TEE/optee_client/blob/4.0.0/libteec/include/tee_client_api.h#L224>
 
@@ -279,13 +281,15 @@ if (id == NSAPP_IDENTITY) {
 
 &emsp;&emsp;再去Linux Kernel里，发现uuid v5只有open session的时候调用了。然后就没了......。这......。  
 
+### Possible Method
+
 &emsp;&emsp;在进行改造之前，首先明确需求，就是在第一次open session完成后，只允许该process或者该process所属group中所有的process和TA进行通讯。鉴于基本的结构已经有了，改进方法也比较简单。  
 1. OPTEE OS中把TEE_Identity存在instance的ctx里，而非session里，这样multiple session的TA从ctx的TEE_Identity得到验证。
 2. 如果是multiple session，此后再次open session应该用同样的connection method。OPTEE OS端如果已经有ctx存在，验证本次传过来的client uuid是否正确。不正确返回失败。
 3. connection method应保存在session数据结构中。
 4. invoke, cancel, close操作在Linux Kernel中同样需要根据session中method生成client uuid。OPTEE OS对该操作验证TEE_Identity。不成功返回失败。
 
-### Reference：
+### Reference
 
 [**Optee Client**](https://github.com/OP-TEE/optee_client)  
 [**Optee OS**](https://github.com/OP-TEE/optee_os)  
@@ -293,5 +297,5 @@ if (id == NSAPP_IDENTITY) {
 [**TEE_Client_API_Specification**](https://globalplatform.org/specs-library/tee-client-api-specification/)  
 
 
-### Note：
+### Note
 [^uuid_v5]: UUID type5。Do SHA1 hash first and output a 20 bytes digest. Keep the first 16 bytes. Change the high-nibble of byte 6 to 5 and set upper two bits of byte 8 to 0b10.
