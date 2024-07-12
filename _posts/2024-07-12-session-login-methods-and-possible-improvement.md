@@ -279,7 +279,7 @@ if (id == NSAPP_IDENTITY) {
 
 &emsp;&emsp;再去Linux Kernel里，发现uuid v5只有open session的时候调用了。然后就没了......。这......。  
 
-&emsp;&emsp;在进行改造之前，首先明确需求，就是在第一次open session完成后，只允许指定的某个process或者某个group中所有的process和TA进行通讯。鉴于基本的结构已经有了，改进方法也比较简单。  
+&emsp;&emsp;在进行改造之前，首先明确需求，就是在第一次open session完成后，只允许该process或者该process所属group中所有的process和TA进行通讯。鉴于基本的结构已经有了，改进方法也比较简单。  
 1. OPTEE OS中把TEE_Identity存在instance的ctx里，而非session里，这样multiple session的TA从ctx的TEE_Identity得到验证。
 2. 如果是multiple session，此后再次open session应该用同样的connection method。OPTEE OS端如果已经有ctx存在，验证本次传过来的client uuid是否正确。不正确返回失败。
 3. connection method应保存在session数据结构中。
