@@ -10,9 +10,10 @@ lang: zh
 
 &emsp;&emsp;CA调用TA的secure service之前，首先要创建一个连接，这个连接叫session。由于这个连接是从REE发起的，对session的安全性有一定的担忧，比如有需求要求某个TA只服务于特定CA。OPTEE其实提供了方案，但整个代码看下来，实在是比较鸡肋。接下来先分析代码，然后看怎么改进比较合适。  
 
-> Note：本文中引用的代码版本如下：
->       OPTEE： 4.0.0
->       Linux： v5.15
+> Note：本文中引用的代码版本如下：  
+> 
+> OPTEE： 4.0.0  
+> Linux： v5.15  
 {: .prompt-tip }
 
 &emsp;&emsp;OPTEE提供的方案叫做connection method。有以下几种：  
@@ -49,9 +50,9 @@ lang: zh
 ```
   
   TEEC_Result TEEC_OpenSession(TEEC_Context *context,
-  			     TEEC_Session *session,
+                 TEEC_Session *session,
                  const TEEC_UUID *destination,
-                 ==uint32_t connectionMethod,==
+                 uint32_t connectionMethod,
                  const void *connectionData,
                  TEEC_Operation *operation,
                  uint32_t *returnOrigin);
@@ -251,8 +252,9 @@ s->clnt_id = *clnt_id;
 ```  
 
 &emsp;&emsp;对于TEE_Identity clnt_id的应用，我们从OPTEE回溯到Linux和CA来看，为什么反着看，一会自然明白。  
-&emsp;&emsp;OPTEE定义了一个function叫做check_client来检查client id(uuid)是否匹配。代码就不copy了。  
+&emsp;&emsp;OPTEE定义了一个function叫做check_client来检查client id(uuid)是否匹配。link放在下面，代码就不copy了。  
 <https://github.com/OP-TEE/optee_os/blob/4.0.0/core/kernel/tee_ta_manager.c#L349>  
+
 &emsp;&emsp;这个函数分别在tee_ta_invoke_command，tee_ta_cancel_command和tee_ta_close_session里调用。嗯，看到这里还不错，该有的检查都有。继续回溯，看作比较的两个值都从哪里得来。不看TA，只看从REE调用过来的function。三个函数的路径分别是(反着来)：  
 
 ```
@@ -290,4 +292,6 @@ if (id == NSAPP_IDENTITY) {
 [**Linux v5.4**](https://github.com/torvalds/linux/tree/v5.4)  
 [**TEE_Client_API_Specification**](https://globalplatform.org/specs-library/tee-client-api-specification/)  
 
+
+### Note：
 [^uuid_v5]: UUID type5。Do SHA1 hash first and output a 20 bytes digest. Keep the first 16 bytes. Change the high-nibble of byte 6 to 5 and set upper two bits of byte 8 to 0b10.
