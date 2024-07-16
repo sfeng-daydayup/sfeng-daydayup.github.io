@@ -109,7 +109,8 @@ lang: zh
 1. 新建一个repo
 2. go to the local repo
 3. git checkout [the branch or commit of local copy]
-4. git push url://new_repo.git
+4. make sure the branch is created in remote side
+5. git push url://new_repo.git HEAD:[remote branch]
 
 ### 方案三
 1. 直接import整个保存的database到一个新的repo。
@@ -117,6 +118,71 @@ lang: zh
 
 &emsp;&emsp;第三个方案因为不是administor，没有实践，理论上应该可行。前两个通过github上实践验证，所有的history都保留完好，并且commit message和commit id都与原先一样。:satisfied:   
 &emsp;&emsp;其中第一种方案适用于从remote repo cherry-pick一些CL到当前repo。比如需要从up-stream升级自己的code到相应版本，只是把checkout变成cherry-pick就好。
+&emsp;&emsp;附方案二脚本:   
+
+```bash
+#!/bin/bash
+
+#url of remote git
+remoteurl=$1
+
+branchs=`git branch -r`
+
+i=0
+
+for branch in $branchs
+do
+  if [[ i -lt 3 ]]
+  then
+    # ignore the first three line. it's "origin/HEAD -> origin/master"
+    i=$i+1
+  else
+    git checkout $branch
+    git branch
+    remotebranch=${branch:7}
+    echo "git push $remoteurl HEAD:$remotebranch"
+    git push $remoteurl HEAD:$remotebranch
+  fi
+done
+```
+
+&emsp;&emsp;检查脚本：  
+```bash
+#!/bin/bash
+
+#the local path of the updated database
+dbb=$1
+
+branchs=`git branch -r`
+
+i=0
+
+#update to the latest
+pushd $dbb
+git fetch --all
+popd
+
+for branch in $branchs
+do
+  if [[ i -lt 3 ]]
+  then
+    i=$i+1
+  else
+    echo $branch
+    a=`git log --oneline -1 $branch`
+    pushd $dbb > /dev/null
+    b=`git log --oneline -1 $branch`
+    popd > /dev/null
+    echo $a
+    echo $b
+    if [ "$a" = "$b" ]; then
+      echo "match"
+    else
+      echo "mismatch"
+    fi
+  fi
+done
+```
 
 ## Reference
 [**Git Doc**](https://git-scm.com/doc)
