@@ -115,7 +115,7 @@ lang: zh
 1. 直接import整个保存的database到一个新的repo。
 
 
-&emsp;&emsp;前两个通过github上实践验证，所有的history都保留完好，并且commit message和commit id都与原先一样。:satisfied:第三个方案因为不是administor，没有实践，理论上应该可行。   
+&emsp;&emsp;第三个方案因为不是administor，没有实践，理论上应该可行。前两个通过github上实践验证，所有的history都保留完好，并且commit message和commit id都与原先一样。:satisfied:   
 &emsp;&emsp;其中第一种方案适用于从remote repo cherry-pick一些CL到当前repo。比如需要从up-stream升级自己的code到相应版本，只是把checkout变成cherry-pick就好。
 
 ## Reference
