@@ -123,9 +123,10 @@ lang: zh
 ```bash
 #!/bin/bash
 
-#url of remote git
+# url of remote git
 remoteurl=$1
 
+# get all branchs
 branchs=`git branch -r`
 
 i=0
@@ -137,6 +138,7 @@ do
     # ignore the first three line. it's "origin/HEAD -> origin/master"
     i=$i+1
   else
+    # push branch one by one
     git checkout $branch
     git branch
     remotebranch=${branch:7}
@@ -168,6 +170,7 @@ do
   then
     i=$i+1
   else
+    # compare head of branch one by one
     echo $branch
     a=`git log --oneline -1 $branch`
     pushd $dbb > /dev/null
