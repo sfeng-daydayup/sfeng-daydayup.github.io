@@ -188,5 +188,5 @@ done
 ```
 
 ## Reference
-[**Git Doc**](https://git-scm.com/doc)
+[**Git Doc**](https://git-scm.com/doc)  
 [**Atlassian Doc**](https://www.atlassian.com/git)
