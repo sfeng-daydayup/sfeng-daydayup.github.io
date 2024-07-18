@@ -3,8 +3,8 @@ layout: post
 title: Syscall of OPTEE
 date: 2024-07-16 18:19 +0800
 author: sfeng
-categories: [Blogging, GIT]
-tags: [git]
+categories: [Blogging, OPTEE]
+tags: [optee, syscall]
 lang: zh
 ---
 
