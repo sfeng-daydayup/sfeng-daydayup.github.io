@@ -11,8 +11,8 @@ lang: zh
 ## Preface
 &emsp;&emsp;大家都知道Linux User Space调用Kernel Space的function需要用到Syscall，其实在Secure World也是一样。今天就追踪下TA是如何调用OPTEE OS的function的。  
 
-> 注：因为博主用到的SoC都是基于ARM特别是ARMv8架构的，没有特别说明的话，博文也是基于ARMv8来做的解释和总结。比如这里Linux User Space运行的Exception Level为Non-Secure EL0, Linux Kernel Space运行在Non-Secure EL1，TA在Secure EL0和OPTEE OS在Secure EL1。
-> 另外，OPTEE version用的是4.0.0。同时SoC基于ARMv8架构。
+> 注：因为博主用到的SoC都是基于ARM特别是ARMv8架构的，没有特别说明的话，博文也是基于ARMv8来做的解释和总结。比如这里Linux User Space运行的Exception Level为Non-Secure EL0, Linux Kernel Space运行在Non-Secure EL1，TA在Secure EL0和OPTEE OS在Secure EL1。  
+> 另外，OPTEE version用的是4.0.0。
 {: .prompt-info }
 
 ## Syscall Invoke Path
@@ -120,7 +120,7 @@ UTEE_SYSCALL __utee_panic, TEE_SCN_PANIC, 2
 	b	el0_sync_abort
   ```
 
-&emsp;&emsp;后续的调用路径为：el0_svc -> thread_scall_handler -> sess->handle_scall -> scall_handle_user_ta(user ta syscall handler) -> get_tee_syscall_func。最终找到前面提到的[**tee_syscall_table**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/kernel/scall.c#L51)中的function，调用[**scall_do_call**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/arch_scall_a64.S#L33)把参数准备，调用syscall function和拿到return value(如果有)。一路返回到svc exception handler里，最终[**eret_to_el0**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/thread_a64.S#L1108)，返回function __utee_panic中(EL0)。整个syscall过程就结束了。  
+&emsp;&emsp;后续的调用路径为：el0_svc -> thread_scall_handler -> sess->handle_scall -> scall_handle_user_ta(user ta syscall handler) -> get_tee_syscall_func。最终找到前面提到的[**tee_syscall_table**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/kernel/scall.c#L51)中的function，调用[**scall_do_call**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/arch_scall_a64.S#L33)准备好参数，call syscall的function和拿到return value(如果有)。之后一路返回到svc exception handler里，最终[**eret_to_el0**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/thread_a64.S#L1108)，返回function __utee_panic中(EL0)。整个syscall过程就结束了。  
 
 ## Add a new Syscall
 &emsp;&emsp;Developer如果想加自己的syscall，请follow下面的步骤：  
@@ -143,7 +143,7 @@ UTEE_SYSCALL __utee_panic, TEE_SCN_PANIC, 2
   
   ~~#define TEE_SCN_MAX	70~~
   ```
-  #define TEE_SCN_TEST 71
+  #define TEE_SCN_TEST	71
   #define TEE_SCN_MAX	71
   ```
  
@@ -168,5 +168,5 @@ UTEE_SYSCALL __utee_panic, TEE_SCN_PANIC, 2
 
 ## Reference
 
-[**OPTEE OS Source Code**](https://github.com/OP-TEE/optee_os/tree/4.0.0)
+[**OPTEE OS Source Code**](https://github.com/OP-TEE/optee_os/tree/4.0.0)  
 [**OPTEE Doc**](https://optee.readthedocs.io/en/latest/architecture/core.html)
