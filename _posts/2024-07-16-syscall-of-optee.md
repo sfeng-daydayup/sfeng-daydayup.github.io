@@ -21,7 +21,7 @@ lang: zh
 ```sass
 void TEE_Panic(TEE_Result panicCode);
 ```
-{: file='lib/libutee/include/tee_internal_api.h'}
+{: file='https://github.com/OP-TEE/optee_os/blob/4.0.0/lib/libutee/include/tee_internal_api.h#L71'}
 
 &emsp;&emsp;TEE_Panic的实现在这里：  
 <https://github.com/OP-TEE/optee_os/blob/4.0.0/lib/libutee/tee_api_panic.c#L22>
@@ -96,7 +96,7 @@ UTEE_SYSCALL __utee_panic, TEE_SCN_PANIC, 2
 &emsp;&emsp;OPTEE exception handler入口函数是从函数[**get_excp_vect**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/thread.c#L694)拿到的，这些入口函数基本定义在[**thread_a64.S**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/thread_a64.S)。
 
 &emsp;&emsp;32位TA和64位TA的svc处理函数入口offset会不一样，但殊途同归，最终汇聚到了一个function el0_svc里。  
-- el0_sync_a64_finish(https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/thread_a64.S#L685）  
+- [el0_sync_a64_finish](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/thread_a64.S#L685）  
   
   ```
   el0_sync_a64_finish:
@@ -108,7 +108,7 @@ UTEE_SYSCALL __utee_panic, TEE_SCN_PANIC, 2
 	b	el0_sync_abort
   ```
 
-- el0_sync_a32_finish(https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/thread_a64.S#L693)  
+- [el0_sync_a32_finish](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/thread_a64.S#L693)  
   
   ```
   el0_sync_a32_finish:
@@ -156,7 +156,7 @@ UTEE_SYSCALL __utee_panic, TEE_SCN_PANIC, 2
   };
   ```
 
-- 在[**utee_syscalls_asm.S**](https://github.com/OP-TEE/optee_os/blob/4.0.0/lib/libutee/include/utee_syscalls_asm.S)中用UTEE_SYSCALL定义调用函数，并把函数原型定义在[**/utee_syscalls.h**]()中。
+- 在[**utee_syscalls_asm.S**](https://github.com/OP-TEE/optee_os/blob/4.0.0/lib/libutee/include/utee_syscalls_asm.S)中用UTEE_SYSCALL定义调用函数，并把函数原型定义在[**utee_syscalls.h**](https://github.com/OP-TEE/optee_os/blob/4.0.0/lib/libutee/include/utee_syscalls.h)中。
   
   ```
   UTEE_SYSCALL _utee_test, TEE_SCN_TEST, 1
