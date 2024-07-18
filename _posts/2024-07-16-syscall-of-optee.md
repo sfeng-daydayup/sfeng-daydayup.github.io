@@ -21,7 +21,7 @@ lang: zh
 ```sass
 void TEE_Panic(TEE_Result panicCode);
 ```
-{: file='https://github.com/OP-TEE/optee_os/blob/4.0.0/lib/libutee/include/tee_internal_api.h#L71'}
+{: file='lib/libutee/include/tee_internal_api.h'}
 
 &emsp;&emsp;TEE_Panic的实现在这里：  
 <https://github.com/OP-TEE/optee_os/blob/4.0.0/lib/libutee/tee_api_panic.c#L22>
