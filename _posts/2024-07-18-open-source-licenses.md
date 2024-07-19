@@ -38,25 +38,27 @@ lang: zh
   &emsp;&emsp;声明为Permissive License的Open Source使用起来就自由多了，可以任意使用且不强制开源和不强制声明为同类型的License。甚至为了商业目的可以闭源。听起来是不是有点自私！:mask:  
   &emsp;&emsp;典型的Permissive的License有Apache，BSD，MIT等等。  
 
+
 &emsp;&emsp;这里澄清下，当今世界上有如此多的License，没有好坏之分，只有适合和不适合，甚至可以根据个人或者组织的需求起草一个全新的License。  
 
 ## Popular Open-Source Licenses and Comparision
 &emsp;&emsp;这里用一张表来列下常见的Open Source License和它们的一些特性。  
-|License|类型|可商用|强制开源|保留原声明|同类型License|传染性|责任|
-|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-|GPL|Strong Copyleft|[x]|[x]|[x]|[x]|[x]|No|
-|LGPL|Weak Copyleft|[x]|[x]|[x]|[x]|[]|No|
-|Mozilla|Weak Copyleft|[x]|[x]|[x]|[x]|[]|No|
-|Microsoft|Weak Copyleft|[x]|[]|[x]|[]|[]|No|
-|Apache|Permissive|[x]|[]|[x]|[]|[]|No|
-|MIT|Permissive|[x]|[]|[x]|[]|[]|No|
-|BSD|Permissive|[x]|[]|[x]|[]|[]|No|
+
+|  License  |       类型      | 商用 | 强制开源 | 保留原声明 | 同类型License | 传染性 | 免责声明 |
+|:---------:|:---------------:|:----:|:--------:|:----------:|:-------------:|:------:|:--------:|
+|    GPL    | Strong Copyleft |   Y  |     Y    |      Y     |       Y       |    Y   |     Y    |
+|    LGPL   |  Weak Copyleft  |   Y  |     Y    |      Y     |       Y       |    N   |     Y    |
+|  Mozilla  |  Weak Copyleft  |   Y  |     Y    |      Y     |       Y       |    N   |     Y    |
+| Microsoft |  Weak Copyleft  |   Y  |     N    |      Y     |       N       |    N   |     Y    |
+|   Apache  |    Permissive   |   Y  |     N    |      Y     |       N       |    N   |     Y    |
+|    MIT    |    Permissive   |   Y  |     N    |      Y     |       N       |    N   |     Y    |
+|    BSD    |    Permissive   |   Y  |     N    |      Y     |       N       |    N   |     Y    |
 
 注意：
 1. 传染性是指只是使用的开源部分还是整个项目都开源
-2. 责任是指使用该开源code如果造成损失作者是否承担责任(如果承担责任谁还敢开源！)
+2. 免责声明是指使用该开源code造成损失作者是否承担责任(话说如果承担责任谁还敢开源！)
 
-&emsp;&emsp;这里只比较了比较关注的几项，如果需要更详细的比较请看这个[pdf](https://www.cmu.edu/cttec/forms/opensourcelicensegridv1.pdf)或者阅读声明文档。  
+&emsp;&emsp;这里只比较了常关注的几项，如果需要更详细的请看这个[pdf](https://www.cmu.edu/cttec/forms/opensourcelicensegridv1.pdf)或者阅读声明文档。  
 
 ## Reference
 
