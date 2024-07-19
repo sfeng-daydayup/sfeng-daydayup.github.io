@@ -44,15 +44,15 @@ lang: zh
 ## Popular Open-Source Licenses and Comparision
 &emsp;&emsp;这里用一张表来列下常见的Open Source License和它们的一些特性。  
 
-|  License  |       类型      | 商用 | 强制开源 | 保留原声明 | 同类型License | 传染性 | 免责声明 |
-|:---------:|:---------------:|:----:|:--------:|:----------:|:-------------:|:------:|:--------:|
-|    GPL    | Strong Copyleft |   Y  |     Y    |      Y     |       Y       |    Y   |     Y    |
-|    LGPL   |  Weak Copyleft  |   Y  |     Y    |      Y     |       Y       |    N   |     Y    |
-|  Mozilla  |  Weak Copyleft  |   Y  |     Y    |      Y     |       Y       |    N   |     Y    |
-| Microsoft |  Weak Copyleft  |   Y  |     N    |      Y     |       N       |    N   |     Y    |
-|   Apache  |    Permissive   |   Y  |     N    |      Y     |       N       |    N   |     Y    |
-|    MIT    |    Permissive   |   Y  |     N    |      Y     |       N       |    N   |     Y    |
-|    BSD    |    Permissive   |   Y  |     N    |      Y     |       N       |    N   |     Y    |
+|  License  |       类型      | 商用 | 强制开源 | 保留原声明 | 同类型License | 修改声明 | 传染性 | 免责声明 |
+|:---------:|:---------------:|:----:|:--------:|:----------:|:-------------:|----------|:------:|:--------:|
+|    GPL    | Strong Copyleft |   Y  |     Y    |      Y     |       Y       |     Y    |    Y   |     Y    |
+|    LGPL   |  Weak Copyleft  |   Y  |     Y    |      Y     |       Y       |     Y    |    N   |     Y    |
+|  Mozilla  |  Weak Copyleft  |   Y  |     Y    |      Y     |       Y       |     N    |    N   |     Y    |
+| Microsoft |  Weak Copyleft  |   Y  |     N    |      Y     |       N       |     N    |    N   |     Y    |
+|   Apache  |    Permissive   |   Y  |     N    |      Y     |       N       |     Y    |    N   |     Y    |
+|    MIT    |    Permissive   |   Y  |     N    |      Y     |       N       |     N    |    N   |     Y    |
+|    BSD    |    Permissive   |   Y  |     N    |      Y     |       N       |     N    |    N   |     Y    |
 
 注意：
 1. 传染性是指只是使用的开源部分还是整个项目都开源
