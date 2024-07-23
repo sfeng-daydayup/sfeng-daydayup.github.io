@@ -10,7 +10,7 @@ lang: zh
 
 ## Preface
 
-&emsp;&emsp;在嵌入式开发过程中，博主发现很多问题涉及到上板子调试就复杂了，image怎么生成和打包，怎么输出debug信息，用什么方法调试，怎么调试最方便，QEMU就有了用武之地。但QEMU也是有适用范围的，比如只是软件逻辑的调试，比如如果QEMU很好的模拟了硬件特性也可以用来调试硬件相关问题。OPTEE官方提供了QEMU调试方法，值得去setup一套这样得环境。  
+&emsp;&emsp;在嵌入式开发过程中，博主发现很多问题涉及到上板子调试就复杂了，image怎么生成和打包，怎么输出debug信息，用什么方法调试，怎么调试最方便，QEMU就有了用武之地。但QEMU也是有适用范围的，比如只是软件逻辑的调试，比如如果QEMU很好的模拟了硬件特性也可以用来调试硬件相关问题。OPTEE官方提供了QEMU调试方法，值得去setup一套这样的环境。  
 &emsp;&emsp;官方文档在这里[**OPTEE QEMU**](https://optee.readthedocs.io/en/latest/building/devices/qemu.html)。安装过程并不是那么一帆风顺，所以记录下来供后来者参考。  
 &emsp;&emsp;另外如果有对QEMU开发很熟，其实可以定制或者部分定制一个和所开发SoC类似的QEMU，不同于硬件emulator受到诸如clock之类的限制，QEMU可以充分利用宿主资源，极大的提高工作效率。  
 
@@ -113,7 +113,7 @@ sudo apt install libpixman-1-dev
 ```
 
 ## Get Passed
-&emsp;&emsp;终于编译通过。根据提示在qemu的console里输入c，弹出的“Normal World”和“Secure World”两个console显示各自world的log。其中Normal World可以输入Linux command，比如运行xtest。  
+&emsp;&emsp;终于编译通过。根据提示在qemu的console里输入c，弹出的“Normal World”和“Secure World”两个console显示各自world的log（这点也很赞，不会混淆或者交错在一起）。其中Normal World可以输入Linux command，比如运行xtest。  
 
 以下是Normal Wrold的log：  
 
@@ -132,7 +132,6 @@ WARNING: Firmware Image Package header check failed.
 NOTICE:  BL1: Booting BL31
 NOTICE:  BL31: v2.10.0	(release):v2.10
 NOTICE:  BL31: Built : 15:55:48, Jul 23 2024
-
 
 U-Boot 2023.07.02 (Jul 23 2024 - 18:04:06 +0800)
 
@@ -193,7 +192,7 @@ I/TC: Primary CPU initializing
 ......
 ```
 
-&emsp;&emsp;通过log可以看到，从bl1(ROM code)，bl2(RAM/DRAM init code)，到bl31(Secure Monitor)，bl32(TEE OS), bl33(bootloader)再到Linux Kernel(REE OS)，整个路径上的东西都全了，也就是除了debug OPTEE，其他的都debug它们的software logic和部分hardware feature。  
+&emsp;&emsp;通过log可以看到，从bl1(ROM code)，bl2(RAM/DRAM init code)，到bl31(Secure Monitor)，bl32(TEE OS), bl33(bootloader)再到Linux Kernel(REE OS)，整个路径上的东西都全了，也就是除了debug OPTEE，其他模块的software logic和部分hardware feature都有可能在QEMU上debug。  
 
 ## Reference
 [**OPTEE QEMU**](https://optee.readthedocs.io/en/latest/building/devices/qemu.html)
