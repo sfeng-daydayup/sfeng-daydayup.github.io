@@ -10,7 +10,7 @@ lang: zh
 
 ## Preface
 
-&emsp;&emsp;在嵌入式开发过程中，博主发现很多问题涉及到上板子调试就复杂了，image怎么生成和打包，怎么输出debug信息，用什么方法调试，怎么调试最方便，QEMU就有了用武之地。但QEMU也是有适用范围的，比如只是软件逻辑的调试，比如如果QEMU很好的模拟了硬件特性也可以用来调试硬件相关问题。OPTEE官方提供了QEMU调试方法，值得去setup一套这样的环境。  
+&emsp;&emsp;在嵌入式开发过程中，博主发现有部分问题涉及到上板子调试就会变复杂了，image怎么生成和打包，怎么输出debug信息，用什么方法调试，怎么调试最方便。这样QEMU就有了用武之地。但QEMU也是有适用范围的，比如只是软件逻辑的调试，比如如果QEMU很好的模拟了硬件特性也可以用来调试硬件相关问题。OPTEE官方提供了QEMU调试方法，值得去setup一套这样的环境。  
 &emsp;&emsp;官方文档在这里[**OPTEE QEMU**](https://optee.readthedocs.io/en/latest/building/devices/qemu.html)。安装过程并不是那么一帆风顺，所以记录下来供后来者参考。  
 &emsp;&emsp;另外如果有对QEMU开发很熟，其实可以定制或者部分定制一个和所开发SoC类似的QEMU，不同于硬件emulator受到诸如clock之类的限制，QEMU可以充分利用宿主资源，极大的提高工作效率。  
 
