@@ -61,4 +61,11 @@ Aborted
 
 &emsp;&emsp;另外，博主只能用arm gcc cross compiler编译好binary在arm开发板可以重复这个问题。在Linux主机上用gcc编译，同样的程序会crash。但是把memset的size从5000改小到20，运行没有任何错误提示。同样，把5000该小到20，arm开发板上也没有错误发生。  
 &emsp;&emsp;测试程序比较简单，如果是在一个比较大的项目里，是否就此埋下了一个坑就不得而知了。总之，嵌入式开发中对memory的操作还是要小心，比如我的测试程序里就没有检查malloc是否返回了一个有效值:smirk:。  
+
+> CPU: ARM Cortex-A55  
+> Compiler: GNU Toolchain for the A-profile Architecture 8.3-2019.02
+{: .prompt-info }
+
+&emsp;&emsp;另外，把编译器换成最新的Arm GNU Toolchain 13.3，编译的时候有warning，但是，运行的时候连错误都没有......  
+
 &emsp;&emsp;记录一下，以防遗忘。
