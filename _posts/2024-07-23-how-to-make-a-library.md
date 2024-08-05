@@ -116,7 +116,7 @@ lib3.o
 &emsp;&emsp;把lib.a link到最终的执行文件：  
 
 ```shell
-gcc main.c -L. -ltest -o testlib
+gcc main.c -o testlib -L. -ltest
 ```
 &emsp;&emsp;对比以下Dynamic Section和Dynamic Symbol Table：  
 
@@ -211,6 +211,13 @@ Dynamic Section:
 ```
 
 &emsp;&emsp;有没有发现这里要动态链接的库由libtest.so变成了指定的名字libtest.so.1？！然后运行下，发现又发生找不到的库的错误。这时把生成的libtest.so改名为libtest.so.1，再运行，成功。  
+
+&emsp;&emsp;另外，大家发现没有，不管link static library还是dynamic library，用的是同一条命令：  
+```shell
+gcc main.c -o testlib -L. -ltest
+```  
+
+&emsp;&emsp;这时候libtest.a和libtest.so在本目录下都存在，最终生成的文件link的却是libtest.so，可见动态链接库是有优先使用权的。  
 
 ## Reference
 [**ar**](https://linux.die.net/man/1/ar)
