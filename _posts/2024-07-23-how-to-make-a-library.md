@@ -220,6 +220,6 @@ gcc main.c -o testlib -L. -ltest
 &emsp;&emsp;这时候libtest.a和libtest.so在本目录下都存在，最终生成的文件link的却是libtest.so，可见动态链接库是有优先使用权的。  
 
 ## Reference
-[**ar**](https://linux.die.net/man/1/ar)
-[**ld**](https://linux.die.net/man/1/ld)
-[**rpath**](https://en.wikipedia.org/wiki/Rpath)
+[**ar**](https://linux.die.net/man/1/ar)  
+[**ld**](https://linux.die.net/man/1/ld)  
+[**rpath**](https://en.wikipedia.org/wiki/Rpath)  
