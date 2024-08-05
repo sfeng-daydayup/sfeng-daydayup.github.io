@@ -39,7 +39,7 @@ lang: zh
 
 4. 把xx.code.bin做一定的alignment，把xx.code.bin和xx.data.bin cat在一起  
    
-&emsp;&emsp;如果直接objcopy -O binary xx.elf xx.data.bin，中间不连续的地址部分也会被填充。比如.data段的VMA和.text的结尾有2M的空间，那么最终生成的bin文件也会多出2M的填充数据。  
+&emsp;&emsp;如果直接objcopy -O binary xx.elf xx.bin，中间不连续的地址部分也会被填充。比如.data段的VMA和.text的结尾有2M的空间，那么最终生成的bin文件也会多出2M的填充数据。  
 
 &emsp;&emsp;ATF BL1里的处理太简单了，看如下代码([**bl1.ld.S**](https://github.com/TrustedFirmware-A/trusted-firmware-a/blob/v2.11/bl1/bl1.ld.S#L121))：  
 
