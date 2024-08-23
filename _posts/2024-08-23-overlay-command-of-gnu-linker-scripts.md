@@ -126,6 +126,24 @@ int main(void)
 ```
 {: file='test_overlay.ld'}
 
+&emsp;&emsp;编译过后dump一下看看：  
+```
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  ......
+  2 .test1        00000014  00008200  00008280  000082bc  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  3 .test2        00000014  00008200  00008300  000082d0  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  4 .test3        00000014  00008200  00008380  000082e4  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  5 .test4        00000014  00008200  00008400  000082f8  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  ......
+```
+
+&emsp;&emsp;可以看到从test1到test4这几个section的VMA都是一样的，但LMA不同，运行的时候就是要把code从LMA copy到VMA来运行。
+
 &emsp;&emsp;上面的example在一颗cortex-m3上试验成功（还需要自己再充实下code）。  
 1. cortex-m3比较简单，不需要考虑cache什么的
 2. example中memory address直接hardcode了
