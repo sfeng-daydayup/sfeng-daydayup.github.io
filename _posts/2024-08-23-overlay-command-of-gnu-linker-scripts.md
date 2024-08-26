@@ -22,6 +22,7 @@ lang: zh
 2. 运行内存有限，只能部分加载。  
 3. 某些程序有security需求，运行过后就不在运行。  
 4. 如上面英文文档里说的，某块特定memory速度较其他region的memory速度快，为了满足performance需求，运行程序要copy到这里来运行。  
+
 &emsp;&emsp;应该还有其他应用场景，大家可以根据需求运用。需要注意的是，对memory的分配要谨慎，各个section之间的boundary要清晰，不然很容易出错，这里上张文档里的图示。  
 ![Desktop View](/assets/img/overlay.png){: .normal }
 &emsp;&emsp;下面直接上code：  
