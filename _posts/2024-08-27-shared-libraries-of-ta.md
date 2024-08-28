@@ -129,7 +129,7 @@ Dynamic:
 -rw-r--r-- 1  78424  optee_test/ta/crypt/cb3e5ba0-adf1-11e0-998b-0002a5d5c51b.ta
 ```  
 
-&emsp;&emsp;所以为了节省存储空间的打开这个宏的话，这个帐要仔细算一下。  
+&emsp;&emsp;所以为了节省存储空间而打开这个宏的话，这个帐要仔细算一下。  
 
 #### Loading Time
 &emsp;&emsp;动态链接库的另一大可能的好处是减少loading的时间。application的size变小，loading时间减少，而动态链接库有可能已经loaded放在memory里了，这样总时间变少。但这对OPTEE TA有效吗？  
@@ -156,7 +156,7 @@ REGISTER_TA_STORE(9) = {
 #   signature as a last step.
 ```  
 
-&emsp;&emsp;OPTEE main上的提供的这个功能有可能非但不会省时间，还会增加时间。
+&emsp;&emsp;如上，OPTEE的shared library这个功能有可能非但不会省时间，还会增加时间。
 
 ### Applicable Scenario
 &emsp;&emsp;前面从size和loading time来分析了OPTEE的shared library功能，适用场景也还是以下两点：  
