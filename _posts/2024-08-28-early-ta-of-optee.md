@@ -41,7 +41,7 @@ lang: zh
 EARLY_TA_PATHS="early_ta/4b3d937e-d57e-418b-8673-1c04f2420226.elf early_ta/71855bba-6055-4293-a63f-b0963a737360.elf early_ta/87bb6ae8-4b1d-49fe-9986-2b966132c309.elf early_ta/be807bbd-81e1-4dc4-bd99-3d363f240ece.elf"
 ```
 
-&emsp;&emsp;把EARLY_TA_PATHS作为编译OPTEE的command option，通过脚本[**ts_bin_to_c.py**](https://github.com/OP-TEE/optee_os/blob/4.0.0/scripts/ts_bin_to_c.py)把每个elf转为early_ta_[uuid].c文件，具体内容如下：  
+&emsp;&emsp;把EARLY_TA_PATHS作为编译OPTEE的command option，编译过程会通过脚本[**ts_bin_to_c.py**](https://github.com/OP-TEE/optee_os/blob/4.0.0/scripts/ts_bin_to_c.py)把每个elf转为early_ta_[uuid].c文件，具体内容如下：  
 ```shell
 /* Generated from early_ta/4b3d937e-d57e-418b-8673-1c04f2420226.elf by ts_bin_to_c.py */
 #include <kernel/embedded_ts.h>
@@ -71,9 +71,10 @@ SCATTERED_ARRAY_DEFINE_PG_ITEM(early_tas, struct                 embedded_ts) = 
 &emsp;&emsp;通过SCATTERED_ARRAY_DEFINE_PG_ITEM定义的early TA的embedded_ts结构列表就是early TA store查找相应TA的依据。这样early TA就以数组的形式放在里OPTEE的binary里。
 
 ### Is it feasible to add shared libary into early TA?
-&emsp;&emsp;答案是标准的OPTEE不可行。为什么？
-&emsp;&emsp;如上生成的.c文件里定义了一个embedded_ts结构，这个结构里的信息有flags，uuid，size，ts和uncompressed_size，其中uuid是从文件名中分解出来的，size和uncompressed_size也能直接拿到，ts则是指向数组的指针，直接赋值即可。关键在于这个flag，前面的文章[**How to Develop a TA**](https://sfeng-daydayup.github.io/posts/how-to-develop-a-ta/#ta_flags)里提到了TA_FLAGS的设置，这个设置最终会放在ta_head这个结构里(refer to [**user_ta_header.c**](https://github.com/OP-TEE/optee_os/blob/4.0.0/ta/user_ta_header.c#L105))，为了拿到这个flags，脚本[**ts_bin_to_c.py**](https://github.com/OP-TEE/optee_os/blob/4.0.0/scripts/ts_bin_to_c.py)为去parse输入的elf文件。然而，这里的shared library并不是TA，它只是一个包装成TA的库文件，没有ta_head这个结构，这样编译就会出错了。  
-&emsp;&emsp;通过查看code会发现，这个结构的flags是个鸡肋的东西，至少目前没有module用它。ldelf在load_main的时候会重新parse elf文件找到ta_head结构，对shared library的加载就更不会有这个步骤。  
+&emsp;&emsp;答案是标准的OPTEE不可行。为什么？  
+&emsp;&emsp;如上生成的.c文件里定义了一个embedded_ts结构，这个结构里的信息有flags，uuid，size，ts和uncompressed_size，其中uuid是从文件名中分解出来的，size和uncompressed_size也能直接拿到，ts则是指向数组的指针，直接赋值即可。  
+&emsp;&emsp;关键在于这个flags，前面的文章[**How to Develop a TA**](https://sfeng-daydayup.github.io/posts/how-to-develop-a-ta/#ta_flags)里提到了TA_FLAGS的设置，这个设置最终会放在ta_head这个结构里(refer to [**user_ta_header.c**](https://github.com/OP-TEE/optee_os/blob/4.0.0/ta/user_ta_header.c#L105))，为了拿到这个flags，脚本[**ts_bin_to_c.py**](https://github.com/OP-TEE/optee_os/blob/4.0.0/scripts/ts_bin_to_c.py)为去parse输入的elf文件。然而，这里的shared library并不是TA，它只是一个包装成TA的库文件，没有ta_head这个结构，这样编译就会出错了。  
+&emsp;&emsp;通过查看code会发现，这个结构里的flags是个鸡肋的东西，至少目前没有看到哪个module用它。ldelf在load_main的时候会重新parse elf文件找到ta_head结构，对shared library的加载就更不会有这个步骤。  
 
 ### Hack?
 &emsp;&emsp;本文就是想看看这种方案是否可行，当然要hack，方法有以下几种：  
@@ -118,7 +119,9 @@ D/TA:   TA_DestroyEntryPoint:51 has been called
 D/TC:? 00 destroy_context:326 Destroy TA ctx (0x126a4f0)
 ```  
 
-&emsp;&emsp;另外，这里选择对early TA进行compress，OPTEE的binary size增加200KB，压缩率40%。  
+&emsp;&emsp;其中hello world TA(8aaaf200-2450-11e4-abe2-0002a5d5c51b)先尝试从early TA load，没找到然后从REE拿到，其他有几个dependence的TA(shared library)都从early TA找到并加载。  
+
+&emsp;&emsp;注：这里选择对early TA进行compress，OPTEE的binary size只增加200KB，压缩率大概40%。  
 
 &emsp;&emsp;收工！！！
 

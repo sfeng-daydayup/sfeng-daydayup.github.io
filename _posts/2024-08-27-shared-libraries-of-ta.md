@@ -168,7 +168,10 @@ REGISTER_TA_STORE(9) = {
 ### Possible Improvement
 &emsp;&emsp;通过分析ree fs ta的[**ree_fs_ta_open**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/kernel/ree_fs_ta.c#L235)函数知道，它并不会对曾经load过的TA进行缓冲，而“CFG_REE_FS_TA_BUFFERED”增加的功能给了一定启示，可以申请一块buffer来存储TA，在调用ta store的open函数之前查找缓冲区，如果已经缓冲，则直接返回TA，如果没有，open函数读取ta，并添加在缓冲区。  
 &emsp;&emsp;考虑到有些TA只load一次就不会在load，这里可以做进一步的优化，只缓冲shared library，可以节省一些memory。  
-&emsp;&emsp;写到这里，忽然产生一个想法，把shared library（已经编译为TA）当成early TA来处理，这样岂不是更简单？这个想法实践过后再来update吧。  
+&emsp;&emsp;写到这里，忽然产生一个想法，把shared library（已经编译为TA）当成early TA来处理，这样还少了siganature check和decryption，岂不是更简单高效？这个想法实践过后再来update吧。  
+
+### Update
+&emsp;&emsp;Update来了，标准OPTEE不可行，稍做hack可行。[**Early TA of OPTEE**](https://sfeng-daydayup.github.io/posts/early-ta-of-optee/)
 
 ## Summary
 &emsp;&emsp;OPTEE的shared library并不像Linux那样完备，适用场景也有一定的限制，看起来可用性不是很高。大家酌情使用吧。
