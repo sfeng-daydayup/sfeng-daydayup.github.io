@@ -4,7 +4,7 @@ title: How to Check Memory Usage of OPTEE
 date: 2024-09-03 18:22 +0800
 author: sfeng
 categories: [Blogging, OPTEE]
-tags: [optee, memory]
+tags: [optee, memory, debug]
 lang: zh
 ---
 ## Preface
@@ -101,7 +101,7 @@ struct malloc_stats {
 
 #### CFG_WITH_STATS
 &emsp;&emsp;CFG_WITH_STATS是OPTEE统计memory usage的开关，只有它设为y的时候，前面的BGET，wrap过的BGET_Malloc和更上层包装里的stats功能才会打开。同时OPTEE还提供了REE侧的查询接口，它包含：  
-- 一个pseudo TA叫做[**stats.ta**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/pta/stats.c#L237)开发以下command：  
+- 一个pseudo TA叫做[**stats.ta**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/pta/stats.c#L237)支持以下command：  
   ```
   static TEE_Result invoke_command(void *psess __unused,
   				 uint32_t cmd, uint32_t ptypes,
@@ -279,10 +279,10 @@ ta(cb3e5ba0-adf1-11e0-998b0002a5d5c51b)
                 Total bytes allocated at that failure: 0
 ```  
 
-&emsp;&emsp;系统中正在运行的TA可能是实时变化的，如何精准的monitor某个TA某个时刻的memory usage也是一个问题。这里看看大家有没有什么方案？（博主已有一个腹稿）  
+&emsp;&emsp;系统中正在运行的TA可能是实时变化的，如何精准的monitor某个TA某个时刻的memory usage也是一个问题。这里看看大家有没有什么好的方案？（博主只有个hack的腹稿）  
 
 #### CFG_TEE_TA_MALLOC_DEBUG
-&emsp;&emsp;与CFG_TEE_CORE_MALLOC_DEBUG一样，CFG_TEE_TA_MALLOC_DEBUG是enable TA里的memory leak功能。然后这个功能并没有像CFG_TA_STATS一样在user ta ops里专门添加一个entry，所以想使用这个功能的要不也加一个类似entry_dump_memleak，或者直接在需要debug的TA某个command里调用mdbg_check(1)更简单一些。  
+&emsp;&emsp;与CFG_TEE_CORE_MALLOC_DEBUG一样，CFG_TEE_TA_MALLOC_DEBUG是enable TA里的memory leak功能。然后这个功能并没有像CFG_TA_STATS一样在user ta ops里专门添加一个entry，xtest也没有option去拿到TA的memory leak信息。所以想使用这个功能的要不也加一个类似entry_dump_memleak，或者直接在需要debug的TA某个command里调用mdbg_check(1)更简单一些。有兴趣可以去实践下。  
 
 ## Reference
 [**BGET**](https://www.fourmilab.ch/bget/)  
