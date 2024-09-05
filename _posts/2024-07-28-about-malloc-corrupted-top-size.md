@@ -68,4 +68,6 @@ Aborted
 
 &emsp;&emsp;另外，把编译器换成最新的Arm GNU Toolchain 13.3，编译的时候有warning，但是，运行的时候连错误都没有......  
 
+&emsp;&emsp;有什么方法可以提早发现这种错误呢？
+
 &emsp;&emsp;记录一下，以防遗忘。
