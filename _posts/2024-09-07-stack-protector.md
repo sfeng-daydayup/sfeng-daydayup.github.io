@@ -9,7 +9,7 @@ lang: zh
 ---
 
 ## Preface
-&emsp;&emsp;上次遇到一个heap overflow(《[**About "malloc(): corrupted top size"**](https://sfeng-daydayup.github.io/posts/about-malloc-corrupted-top-size/)》)的问题，其实到现在还没有好的解决办法，不过对stack 的overflow倒是有GCC的option做保护。在以前的项目中有用过，不过没有详细研究，这篇就来deepdive下。
+&emsp;&emsp;上次遇到一个heap overflow(《[**About "malloc(): corrupted top size"**](https://sfeng-daydayup.github.io/posts/about-malloc-corrupted-top-size/)》)的问题，其实到现在还没有好的解决办法，不过对stack 的overflow倒是有GCC的option做保护。在以前的项目中有用过，不过没有详细研究，这篇就来deepdive下。  
 
 ## Content
 
@@ -31,16 +31,16 @@ lang: zh
        -fstack-protector-explicit
            Like -fstack-protector but only protects those functions which have the "stack_protect" attribute
 ```  
-&emsp;&emsp;gcc的manual其实解释的很清楚，后边用例子对照一下。另stack-protector-explicit可以指定只对特定的函数做stack protect（但在博主的实验环境中看起来并不是Like -fstack-protector而是Like -fstack-protector-all），这里就不讨论了。  
+&emsp;&emsp;gcc的manual解释的很清楚了，后边用例子对照一下。另stack-protector-explicit可以指定只对特定的函数做stack protect（但在博主的实验环境中看起来并不是Like -fstack-protector而是Like -fstack-protector-all），这里就不讨论了。  
 
 ### How does it protect stack
-&emsp;&emsp;原理其实很简单，由于stack的特性是由高地址往低地址存贮诸如局部变量和LR，而我们程序中memory的增长方向则是由低地址到高地址。众所周知，局部变量是放在stack中的，当访问局部变量特别是array类型的变量时，有可能会越界访问，特别是写操作，会把stack中的内容改变，进而改变程序运行过程，造成某些不可预测的结果，这个时候反而crash是最好的结果了。gcc的stack protector是用一个canary的值把函数的LR和保存的变量隔离开，在离开本函数前调用__stack_chk_fail检查canary的值是否改变来判断是否有stack smashing发生。这里引用一张图：  
+&emsp;&emsp;原理其实很简单，由于stack的特性是由高地址往低地址存贮诸如局部变量和LR，而我们程序中memory的增长方向则是由低地址到高地址。众所周知，局部变量是放在stack中的，当访问局部变量特别是array类型的变量时，有可能会越界访问，特别是写操作，会把stack中的内容改变，进而改变程序运行过程，造成某些不可预测的结果，这个时候反而crash是最好的结果了。gcc的stack protector是用一个canary的值把函数的LR和保存的变量隔离开，在离开本函数前调用__stack_chk_fail检查canary的值是否改变来判断是否有stack smashing发生。这里引用一张图帮助理解：  
 ![Desktop View](/assets/img/stackprotector.png){: .normal }
 
 ### Example and analysis
 > 以下代码编译运行环境如下：  
-> Toolchain: GNU Toolchain for the A-profile Architecture 8.3-2019.02
-> SoC: ARMv8 Corextex-A series CPU
+> Toolchain: GNU Toolchain for the A-profile Architecture 8.3-2019.02  
+> SoC: ARMv8 Corextex-A series CPU  
 {: .prompt-info }
 
 &emsp;&emsp;准备的例子如下：  
@@ -134,7 +134,7 @@ void test(void)
     a8c8:       d65f03c0        ret
 ```  
 &emsp;&emsp;从汇编里看只有test_stackprotector结尾调用了__stack_chk_fail，符合预期。  
-&emsp;&emsp;另外这里发现了一个有趣的事情，就是在每个函数的第一行汇编保存FP和LR，它竟然不是保存在栈顶，而是又加了一个offset，这和上文图片里所示是有差别的，而这个预留出来的栈空间是给局部变量的，这样做至少避免了因为buffer overflow把本函数给高挂了，然而更可怕的是如果把之前栈数据给改了，那就不知道什么时候遇到不可预测的问题了。所以FP和LR这样放个人认为意义不大，有可能还增加了debug的难度。这是题外话。  
+&emsp;&emsp;另外这里发现了一个有趣的事情，就是在每个函数的第一行汇编保存FP和LR，它竟然不是保存在栈顶，而是又加了一个offset，这和上文图片里所示是有差别的，而这个预留出来的栈空间是给局部变量的，这样做至少避免了因为buffer overflow把本函数给搞挂了，然而更可怕的是如果把之前栈数据给改了，那就不知道什么时候遇到不可预测的问题了。所以FP和LR这样放个人认为意义不大，有可能还增加了debug的难度。这是题外话。  
 
 #### -fstack-protector-strong
 ```
