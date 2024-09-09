@@ -278,7 +278,7 @@ void test(void)
 ```  
 &emsp;&emsp;这下三个函数结尾都有调用__stack_chk_fail了。
 
-#### Stack Analysis
+#### Stack Dump
 &emsp;&emsp;以上三个option只决定哪些函数的要进行stack protect，stack的数据安排是类似的，这里选取一种情况分析。以下是stack数据的一个dump（仅截取当前函数为test_stackprotector的stack。另外为dump stack做了另外的操作，和上面汇编并非匹配。）：  
 - no stack protector enabled  
 ```
