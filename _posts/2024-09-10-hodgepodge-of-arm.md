@@ -44,7 +44,7 @@ lang: zh
 > Neoverse: ARM's server-grade processors are part of the Neoverse family. They are designed to meet the demands of data centers and cloud computing, offering scalability and power efficiency.
 {: .prompt-info }
 
-&emsp;&emsp;博主用过的ARM的芯片其实也很有限，A系列里最老的用过ARMv5te架构的CPU，后来就是V7架构的Cortex-A7、Cortex-A15，再后来尝鲜了V8架构的Cortex-A53，后边就基本都是V8架构了，诸如Cortex-A55、Cortex-A72、Cortex-A73，还有ARM给车规级芯片准备的Cortex-A78AE。R系列里也是做车规芯片的时候用过Cortex-R52。M系列比较简单，Cortex-M3和Cortex-M33,基本就是跑个RTOS了事。  
+&emsp;&emsp;博主用过的ARM的芯片其实也很有限，A系列里最老的用过ARMv5te架构的CPU，后来就是V7架构的Cortex-A7、Cortex-A15，再后来尝鲜了V8架构的Cortex-A53，后边就基本都是V8架构了，诸如Cortex-A55、Cortex-A72、Cortex-A73，还有ARM给车规级芯片准备的Cortex-A78AE。R系列里也是做车规芯片的时候用过Cortex-R52。M系列比较简单，Cortex-M3和Cortex-M33,一般跑个RTOS加一些task上去。  
 
 ### Brief of Some Features
 &emsp;&emsp;今天算是重新学习ARM架构了，这里列一些个人认为比较有用或者有趣的feature。  
@@ -86,7 +86,7 @@ lang: zh
 &emsp;&emsp;这个功能貌似有可以利用的地方。不过也是ARMv8.7以后的事了。  
 
 #### Optimizing for the memcpy() family of functions
-&emsp;&emsp;这个属于萌生发大财，不自己写string库的话，对用户是透明的。ARMv8.8才有的feature了。  
+&emsp;&emsp;这个属于闷声发大财，不自己写string库的话，对用户是透明的。ARMv8.8才有的feature了。  
 
 #### Guarded Control Stack (GCS)
 &emsp;&emsp;GCS provides mitigations against some forms of ROP attacks. GCS also provides an efficient mechanism for profiling tools to get a copy of the current call stack, without needing to unwind the main stack. 又是一个防止ROP和JOP的。懒的翻了。ARMv8.9-A和ARMv9.4-A。  
