@@ -44,6 +44,67 @@ lang: zh
 > Neoverse: ARM's server-grade processors are part of the Neoverse family. They are designed to meet the demands of data centers and cloud computing, offering scalability and power efficiency.
 {: .prompt-info }
 
+&emsp;&emsp;博主用过的ARM的芯片其实也很有限，A系列里最老的用过ARMv5te架构的CPU，后来就是V7架构的Cortex-A7、Cortex-A15，再后来尝鲜了V8架构的Cortex-A53，后边就基本都是V8架构了，诸如Cortex-A55、Cortex-A72、Cortex-A73，还有ARM给车规级芯片准备的Cortex-A78AE。R系列里也是做车规芯片的时候用过Cortex-R52。M系列比较简单，Cortex-M3和Cortex-M33,基本就是跑个RTOS了事。  
+
+### Brief of Some Features
+&emsp;&emsp;今天算是重新学习ARM架构了，这里列一些个人认为比较有用或者有趣的feature。  
+
+#### Thumb-2
+&emsp;&emsp;根据官方文档描述，Thumb-2混合了32位指令和16位指令，可以提供和A32一样的性能的同时还可以保持不错的code density（30% improvement）。所以运行在aarch32时，建议编译为Thumb-2。  
+
+#### TrustZone
+&emsp;&emsp;TrustZone是ARM推出的一种系统级的安全解决方案（ARMv7开始）。它不单纯是一个硬件方案，也包含软件实现。SecureMonitor，OPTEE，Trusty等等都是基于TrustZone的一种软件实现。  
+
+#### SIMD，Neon，SVE，SVE2
+&emsp;&emsp;单指令多数据流，并行加快数据处理和提高性能。矩阵乘法、高性能计算、机器学习。  
+
+#### Virtualization
+&emsp;&emsp;从ARMv7开始支持虚拟化，在ARMv8又有加强。通过跑在EL2的hypervisor（REE world），可以同时有几个VM跑在硬件平台上，且互不干扰（至少表面看来是）。Hypervisor还分type1和type2。比如QNX和Xen就是type1，KVM是type2。
+
+#### SecureEL2
+&emsp;&emsp;增加了secure world的虚拟化支持。通过在Secure EL2的SPM，TEE端也可以同时跑几个TrustZone kernel了。这个feature从ARMv8.4开始。
+
+#### Pointer authentication
+&emsp;&emsp;这是ARMv8.3新增的feature，这个貌似是解决stack overflow和buffer overflow更高效的方案，等仔细研究过后在更新。
+
+#### Cryptographic Extension
+&emsp;&emsp;ARMv8开始的Cryptographic Extension支持AES、SHA1和SHA256，随后在ARMv8.2（spec上为8.2，但arm blog上的announcement里则表示8.4才开始）里增加了SHA512、SHA3、国密SM3和国密SM4的支持。之前在Cortex-A78AE上测过AES各种模式和SHA256的性能，性能很可观，有空在树莓派上再测一下。  
+
+#### Memory Tagging（MTE）
+&emsp;&emsp;这貌似也可以作为防止堆和栈溢出的解决方案啊，“Deploying MTE in Software”这节里也讲了Heap tagging和Stack tagging。肤浅了，真是书中自有颜如玉啊，书中真有解决方案。不过这个feature要在ARMv8.5才能用了。  
+
+#### Branch Target Indicators（BTI）
+&emsp;&emsp;In Armv8.3-A, we introduced the Pointer Authentication feature, which can be used to ensure functions return to the location expected by the program.  
+&emsp;&emsp;In Armv8.5-A, we introduce Branch Target Indicators (BTI). Systems supporting BTI can enforce that indirect branches only go to code locations where the instruction is one of a small acceptable list. This reduces the ability of an attacker to execute arbitrary code.  
+&emsp;&emsp;These two features work together to significantly reduce the number of gadgets available to an attacker. The gadgets that remain available are large in size, making it much harder for an attacker to make a viable exploit, even if they find a vulnerability that lets them gain access to a machine.  
+&emsp;&emsp;原来ARM一直在解决这个问题啊。  
+
+#### Atomic 64-byte load and stores
+&emsp;&emsp;64字节数据读取和存储的原子操作只能从ARMv8.7开始支持了。  
+
+#### WFE and WFI with timeouts
+&emsp;&emsp;这个功能貌似有可以利用的地方。不过也是ARMv8.7以后的事了。  
+
+#### Optimizing for the memcpy() family of functions
+&emsp;&emsp;这个属于萌生发大财，不自己写string库的话，对用户是透明的。ARMv8.8才有的feature了。  
+
+#### Guarded Control Stack (GCS)
+&emsp;&emsp;GCS provides mitigations against some forms of ROP attacks. GCS also provides an efficient mechanism for profiling tools to get a copy of the current call stack, without needing to unwind the main stack. 又是一个防止ROP和JOP的。懒的翻了。ARMv8.9-A和ARMv9.4-A。  
+
+#### Confidential Computing（CCA）
+&emsp;&emsp;这个是ARMv8.9-A和ARMv9.4-A引入的新东西了。把secure和non-secure又细分为root、realm、secure和non-secure了。具体看reference里的CCA。  
+
+#### Live migration
+&emsp;&emsp;这个比较有趣，可以把一个VM从当前host migrate到另外一个host。ARMv9.5-A。  
+
+#### Checked Pointer Arithmetic
+&emsp;&emsp;Taking the previous MTE example, the new features allow the processor to detect if the top 8 bits of the pointer have been modified. This means that if the MTE tag were corrupted it would be reported back to software.继续Copy，对内存特别是指针的保护是不遗余力啊。ARMv9.5-A。  
+
+## Summary
+&emsp;&emsp;哈哈，总结一下：  
+1. ARM官网确实是个宝藏。  
+2. 解决之道就在书中。  
+
 ## Reference
 [**Arm Architectures and Processors blog**](https://community.arm.com/arm-community-blogs/b/architectures-and-processors-blog)  
 [**Arm-M Profile Arch**](https://www.arm.com/architecture/cpu/m-profile)  
@@ -58,4 +119,6 @@ lang: zh
 [**Armv8.8-A and Armv9.3-A**](https://community.arm.com/arm-community-blogs/b/architectures-and-processors-blog/posts/arm-a-profile-architecture-developments-2021)  
 [**Armv8.9-A and Armv9.4-A**](https://community.arm.com/arm-community-blogs/b/architectures-and-processors-blog/posts/arm-a-profile-architecture-2022)  
 [**Armv9.5-A**](https://community.arm.com/arm-community-blogs/b/architectures-and-processors-blog/posts/arm-a-profile-architecture-developments-2023)  
+[**ARM Memory Tagging(MTE)**](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/Arm_Memory_Tagging_Extension_Whitepaper.pdf)  
+[**CCA(RME)**](https://www.arm.com/architecture/security-features/arm-confidential-compute-architecture)  
 
