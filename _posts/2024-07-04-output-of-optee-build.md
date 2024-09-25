@@ -75,7 +75,7 @@ struct optee_header_v2 {
   由于V2的Binary都是单独生成的，这里就是一个28B的follow V2 format的header。同样由于CFG_WITH_PAGER设的是n，nb_images这里为1，只有tee-page_v2.bin(文档里所谓Init)。  
   关于Header，官方文档里有句说明:  "**The header is only used by the loader of OP-TEE, not OP-TEE itself.**" 这应该也是它为什么要单独生成的原因，developer可以根据自己实际需求和其他Binary pack到一起。
 - tee-pager_v2.bin  
-  在CFG_WITH_PAGER为n时，它几乎和objcopy -O binary tee.elf tee.bin的输出结果一样，只是最后pack了一些长度信息，可以忽略。也即它就是最终的可执行文件。
+  在CFG_WITH_PAGER为n时，它几乎和objcopy -O binary tee.elf tee.bin的输出结果一样，最后pack了struct boot_embdata和reloc info（CFG_CORE_ASLR和CFG_CORE_PHYS_RELOCATABLE任一选项打开），当然如果CFG_WITH_PAGER为y，还有这部分的hash。基本上它就是最终的可执行文件。
 - tee-pageable_v2.bin  
   如前所述，它是除了pageable init的其余部分,主要为.rodata_pageable和.text_pageable。当CFG_WITH_PAGER为n时，它为NULL。
 - tee-raw.bin  
