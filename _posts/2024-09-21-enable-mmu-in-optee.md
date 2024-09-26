@@ -9,7 +9,7 @@ lang: zh
 ---
 
 ## Preface
-&emsp;&emsp;最近在做OPTEE，作为一个完整的OS，OPTEE里也是保罗万象。同时OPTEE又是一个相对较小的系统，对于研究学习一些复杂的过程可能会降低一些难度，比如对比Linux。这篇博文就探索下OPTEE里的MMU是怎样完成的。另外既然写到了MMU，计划写一些关于Cache的基础知识，算是预告一下。  
+&emsp;&emsp;最近在做OPTEE，作为一个完整的OS，OPTEE里也是保罗万象。同时OPTEE又是一个相对较小的系统，对于研究学习一些复杂的过程因为较少的包装会更容易去发掘。这篇博文就探索下OPTEE里的MMU是怎样完成的。另外既然写到了MMU，后面计划写一些关于Cache的基础知识，算是预告一下。  
 
 > SoC Arch     : ARMv8  
 > OPTEE version: 4.0.0  
@@ -17,10 +17,10 @@ lang: zh
 {: .prompt-info }
 
 ## Content
-&emsp;&emsp;OPTEE是一个完整的OS，它和Linux有诸多相似之处，比如Linux Kernel运行在NS-EL1，而User space application运行在NS-EL0，映射到OPTEE就是OPTEE OS运行在S-EL1，TA运行在S-EL0，User space application/TA运行在独立的虚拟地址空间中，那MMU是必然要有的。在OPTEE的boot code，MMU是怎样enable的呢？这里有两种情况。这篇主要想讲的是第二种情况，不过第一种也提一下。  
+&emsp;&emsp;OPTEE是一个相对完整的OS，它是REE OS（比如Linux）在TEE环境下的映射，比如Linux Kernel运行在NS-EL1，而User space application运行在NS-EL0，映射到OPTEE就是OPTEE OS运行在S-EL1，TA运行在S-EL0。User space application/TA也一样运行在独立的虚拟地址空间中，那MMU是必然要有的。MMU设置本身并没有很复杂，按照spec一步步设就可以了。难度在于代码链接地址和运行地址以及虚拟地址不一致的时候如何处理，symobl如何查找，反而其他部分内存按规则映射就好了。OPTEE里不同的config会产生上述的不一致，先从简单的来。  
 
 ### CFG_CORE_ASLR = n && CFG_CORE_PHYS_RELOCATABLE =n
-&emsp;&emsp;在这种情况下，MMU的enable和大多数bare metal的code一样比较简单，是直接把VA和PA一一对应，也就是VA和PA是一样的（主要指可执行部分）。Qemu上的dump log如下：  
+&emsp;&emsp;这种情况是最简单的一种，MMU的enable和大多数bare metal的code一样，是直接把VA和PA一一对应，也就是VA和PA是一致的（主要指可执行部分，其他部分可按规则映射到不同的虚拟地址）。Qemu上的dump log如下：  
 ```shell
 D/TC:0   dump_mmap_table:850 type TEE_RAM_RX   va 0x0e100000..0x0e185fff pa 0x0e100000..0x0e185fff size 0x00086000 (smallpg)
 D/TC:0   dump_mmap_table:850 type TEE_RAM_RW   va 0x0e186000..0x0e2fffff pa 0x0e186000..0x0e2fffff size 0x0017a000 (smallpg)
@@ -34,16 +34,16 @@ D/TC:0   dump_mmap_table:850 type NSEC_SHM     va 0x12c00000..0x12dfffff pa 0x42
 &emsp;&emsp;在处理过程中会按照PA在两个组（smallpg和pgdir）中分别从小到大排序，smallpg group涉及到.text等可执行section，所以虚拟地址起始也从它开始。为了尽量少的分配page table，pgdir的VA会顺序递增。  
 
 ### CFG_CORE_ASLR = y || CFG_CORE_PHYS_RELOCATABLE = y
-&emsp;&emsp;其中enable CFG_CORE_PHYS_RELOCATABLE可以使OPTEE从非link-address的地址启动，主要影响自身各个段的MMU映射，各个段的起始地址需要runtime去调整，不影响其他地址空间。(CFG_CORE_PHYS_RELOCATABLE依赖于CFG_CORE_SEL2_SPMC，这里只做code分析)  
-&emsp;&emsp;ASLR是Address Space Layout Randomization的缩写，它的作用主要是增强Security，当然也增加了复杂度。  
+&emsp;&emsp;这两个config任一会导致前诉的不一致。其中CFG_CORE_PHYS_RELOCATABLE导致link address和load address不一致，.text、.data等各个段的起始地址需要runtime去调整，不影响其他地址空间。(CFG_CORE_PHYS_RELOCATABLE依赖于CFG_CORE_SEL2_SPMC，这里只做code分析)  
+&emsp;&emsp;ASLR是Address Space Layout Randomization的缩写，这个宏则引起当前运行地址到虚拟地址的转变。它的作用主要是增强Security，当然也增加了复杂度。以下为ASLR的解释。  
 > Address Space Layout Randomization (ASLR) is a security technique used in operating systems to randomize the memory addresses used by system and application processes. By doing so, it makes it significantly harder for an attacker to predict the location of specific processes and data, such as the stack, heap, and libraries, thereby mitigating certain types of exploits, particularly buffer overflows.
 {: .prompt-info }
 
-&emsp;&emsp;Security本身就是个加重overhead的东西，就比如国防开支，目前国际形势动荡，各国都增加了这项开支，为啥，保护本国利益不被它人窃取呗。电子世界了就是保护设备里的信息不被他人窃取。  
+&emsp;&emsp;Security本身就是个加重overhead的东西，就比如国防开支，目前国际形势动荡，各国增加这项开支以保护本国利益不被它人窃取。电子世界里就是保护设备里的信息不被他人窃取。  
 
-&emsp;&emsp;如上所诉，CFG_CORE_PHYS_RELOCATABLE会影响OPTEE自身段的地址改变，而CFG_CORE_ASLR更对虚拟地址进行了随机化，这里的问题在于：  
-1. OPTEE在编译链接的地址是[**TEE_LOAD_ADDR**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/include/mm/generic_ram_layout.h#L114)这个配置的物理地址。  
-2. OPTEE初始运行的boot code是在MMU打开前就开始运行了，冒然打开MMU必然会因为address translation到不同的地址导致未知的错误。  
+&emsp;&emsp;如上，CFG_CORE_PHYS_RELOCATABLE导致link address和load address的不一致，而CFG_CORE_ASLR更对虚拟地址进行了随机化，这里的问题在于：  
+1. OPTEE在编译链接的地址是[**TEE_LOAD_ADDR**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/include/mm/generic_ram_layout.h#L114)，在runtime需要适应无论是物理运行地址还是虚拟地址的不一致。  
+2. OPTEE的boot code是在MMU打开前就开始运行了，冒然打开MMU必然会因为address translation到不同的地址导致未知的错误。  
 &emsp;&emsp;那OPTEE是怎么操作的呢？先看下CFG_CORE_ASLR打开后VA和PA的对应情况。  
 ```shell
 D/TC:0   dump_mmap_table:850 type IDENTITY_MAP_RX va 0x0e100000..0x0e101fff pa 0x0e100000..0x0e101fff size 0x00002000 (smallpg)
@@ -98,7 +98,9 @@ struct core_mmu_config {
 	uint64_t map_offset;
 };
 ```  
-&emsp;&emsp;函数细节大家可以看[core/mm/core_mmu.c](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/mm/core_mmu.c#L1476)。地址分为两个部分，第一部分是OPTEE本身的.text、.data、.bss等各个段，另外一部分则是在main.c里通过register_phys_mem/register_phys_mem_pgdir，register_ddr和register_sdp_mem来定义的IO或者DDR地址空间。这里把地址映射的变化列出来做个比较。  
+&emsp;&emsp;函数细节大家可以看[core/mm/core_mmu.c](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/mm/core_mmu.c#L1476)。地址分为两个部分，第一部分是OPTEE本身的.text、.data、.bss等各个段，另外一部分则是在main.c里通过register_phys_mem/register_phys_mem_pgdir，register_ddr和register_sdp_mem来定义的IO或者DDR地址空间。  
+&emsp;&emsp;之前提到的最初始的init段映射了两次，一次按照其load address映射，第二次则按照新分配的虚拟地址映射。具体函数参看[**mem_map_add_id_map**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/mm/core_mmu.c#L1302)。博主其实没搞明白为啥要映射两次。于是做了个实验，把按load address映射的部分去掉，发现也能正常启动，跑了个TA也没问题，至少目前没发现有什么不妥，等以后有发现再来更新。  
+&emsp;&emsp;这里把地址映射的变化列出来做个比较。  
 初始数据：  
 ```
 D/TC:0   dump_mmap_table:850 type TEE_RAM_RX   va 0x00000000..0x00085fff pa 0x0e100000..0x0e185fff size 0x00086000 (smallpg)
@@ -123,7 +125,7 @@ D/TC:0   dump_mmap_table:850 type IO_SEC       va 0x6b200000..0x6b3fffff pa 0x09
 D/TC:0   dump_mmap_table:850 type NSEC_SHM     va 0x6b400000..0x6b5fffff pa 0x42000000..0x421fffff size 0x00200000 (pgdir)
 
 ```  
-&emsp;&emsp;注意，由于每次启动seed有可能不同，每次虚拟地址都会不同，另外虚拟地址需要繁殖overlap和越界，OPTEE在函数[**init_mem_map**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/mm/core_mmu.c#L1374)里也做了一些处理。  
+&emsp;&emsp;注意，由于每次启动seed有可能不同（依赖于seed的source），每次虚拟地址都会不同，另外虚拟地址需要防止overlap和越界，OPTEE在函数[**init_mem_map**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/mm/core_mmu.c#L1374)里也做了一些处理。  
 &emsp;&emsp;最终struct core_mmu_config *cfg会被填充好，后面会用到。  
 
 #### Update Relative Address Table
@@ -154,15 +156,21 @@ D/TC:0   dump_mmap_table:850 type NSEC_SHM     va 0x6b400000..0x6b5fffff pa 0x42
                 sys.exit(1)
             addrs.append(rel['r_offset'] - link_address)
 ```  
-&emsp;&emsp;通过分析上面脚本可知，这个函数把.rela里的Elf64_Rela结构简化为一个r_offset和link_address的差值，然后产生了一个相对地址的数组。  
+&emsp;&emsp;通过分析上面脚本可知，这个函数把.rela里的Elf64_Rela结构（如下）简化为一个r_offset和link_address的差值，然后产生了一个相对地址的数组。  
 ```
 typedef struct {
 	Elf64_Addr	r_offset;	/* Location to be relocated. */
 	Elf64_Xword	r_info;		/* Relocation type and symbol index. */
 	Elf64_Sxword	r_addend;	/* Addend. */
 } Elf64_Rela;
+------>
+array[] = {
+	relative address 0,
+	relative address 1,
+	......
+};
 ```  
-&emsp;&emsp;.real可以通过readelf -Wr命令读出来。其中offset是后面Symbol在.got表中的位置。以下为该命令执行的片段：  
+&emsp;&emsp;.rela可以通过readelf -Wr命令读出来。其中offset是后面Symbol在.got表中的位置。以下为该命令执行的片段：  
 ```
     Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
 000000000e185058  0000000000000403 R_AARCH64_RELATIVE                        e1891c0
@@ -214,7 +222,7 @@ struct boot_embdata {
 1. Update vbar。把vbar转换为虚拟地址。
 2. Adjust stack pointers and return address。也是转换为虚拟地址。
 
-&emsp;&emsp;这样整个步骤就结束了。顺便提一下，CFG_CORE_ASLR和CFG_CORE_PHYS_RELOCATABLE对debug都是不友好的，在做debug的时候务必把它们都关掉。  
+&emsp;&emsp;这样整个步骤就结束了。最后顺便提一下，CFG_CORE_ASLR和CFG_CORE_PHYS_RELOCATABLE对debug都是不友好的，在做debug的时候务必把它们都关掉。  
 
 ## Reference
 [**ASLR**](https://en.wikipedia.org/wiki/Address_space_layout_randomization)  
