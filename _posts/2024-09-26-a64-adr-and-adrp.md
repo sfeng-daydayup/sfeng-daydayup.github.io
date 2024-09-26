@@ -3,7 +3,7 @@ layout: post
 title: 'A64 : ADR and ADRP'
 date: 2024-09-26 19:51 +0800
 author: sfeng
-categories: [Blogging, ARM, A64]
+categories: [Blogging, ARM]
 tags: [arm, a64]
 lang: zh
 ---
@@ -77,7 +77,9 @@ e100058:       10000c43        adr     x3, e1001e0 <cached_mem_end>
 2. immlo为0  
 3. op0为0b10000，是PC-rel. addressing指令  
 4. immhi为0b1100010  
-5. Rd为3，目标寄存器为X3  
+5. Rd为3，目标寄存器为X3
+
+
 &emsp;&emsp;结合immhi和immlo，偏移量为0x188，（0xe1001e0 - 0xe100058）既cached_mem_end的link address减去该条指令的link address也为0x188。因为这条指令和cached_mem_end相对位置不会变，运行到这条指令通过PC+偏移量总能正确找到cached_mem_end。  
 
 &emsp;&emsp;再来找一个ADRP的。  
@@ -93,15 +95,16 @@ e107cc8:       910e00c6        add     x6, x6, #0x380
 3. op0为0b10000，是PC-rel. addressing指令  
 4. immhi为0b110011  
 5. Rd为6，目标寄存器为X6  
+
 &emsp;&emsp;结合immhi和immlo，为0xCC，乘以4KB为0xCC000。(0xe1d3000 - 0xe107000)也为0xCC000，同时__end的link address的低12位位0x380，通过第二条add指令还原了低12位，也正确找到了__end的位置。  
 &emsp;&emsp;Perfect！！！  
 
 ## Applicable Scenario
 &emsp;&emsp;这两个指令是ARM64开发中找到symbol正确的地址和runtime计算link address和load address偏移值的必用指令。大概找了下开源项目中boot code中使用这两个指令的地方。如下：  
-- ATF   https://github.com/TrustedFirmware-A/trusted-firmware-a/blob/v2.9/lib/aarch64/misc_helpers.S#L518  
-- OPTEE https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/entry_a64.S#L282  
-- uboot https://github.com/u-boot/u-boot/blob/master/arch/arm/cpu/armv8/start.S#L84  
-- Linux https://github.com/torvalds/linux/blob/v5.15/arch/arm64/kernel/head.S#L94  
+- ATF   <https://github.com/TrustedFirmware-A/trusted-firmware-a/blob/v2.9/lib/aarch64/misc_helpers.S#L518>  
+- OPTEE <https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/entry_a64.S#L282>  
+- uboot <https://github.com/u-boot/u-boot/blob/master/arch/arm/cpu/armv8/start.S#L84>  
+- Linux <https://github.com/torvalds/linux/blob/v5.15/arch/arm64/kernel/head.S#L94>  
 
 &emsp;&emsp;理解这两个指令的编码方式对阅读理解或者开发boot code有很大帮助。  
 
