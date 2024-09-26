@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Enable MMU in OPTEE
-date: 2024-09-11 11:43 +0800
+date: 2024-09-21 11:43 +0800
 author: sfeng
 categories: [Blogging, OPTEE]
 tags: [optee, mmu]
