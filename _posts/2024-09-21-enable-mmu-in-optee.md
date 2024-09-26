@@ -99,7 +99,7 @@ struct core_mmu_config {
 };
 ```  
 &emsp;&emsp;函数细节大家可以看[core/mm/core_mmu.c](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/mm/core_mmu.c#L1476)。地址分为两个部分，第一部分是OPTEE本身的.text、.data、.bss等各个段，另外一部分则是在main.c里通过register_phys_mem/register_phys_mem_pgdir，register_ddr和register_sdp_mem来定义的IO或者DDR地址空间。  
-&emsp;&emsp;之前提到的最初始的init段映射了两次，一次按照其load address映射，第二次则按照新分配的虚拟地址映射。具体函数参看[**mem_map_add_id_map**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/mm/core_mmu.c#L1302)。博主其实没搞明白为啥要映射两次。于是做了个实验，把按load address映射的部分去掉，发现也能正常启动，跑了个TA也没问题，至少目前没发现有什么不妥，等以后有发现再来更新。  
+&emsp;&emsp;之前提到的最初始的init段映射了两次，一次按照其load address映射，第二次则按照新分配的虚拟地址映射。具体函数参看[**mem_map_add_id_map**](https://github.com/OP-TEE/optee_os/blob/4.0.0/core/mm/core_mmu.c#L1302)。博主其实没搞明白为啥要映射两次。于是做了个实验，把按load address映射的部分去掉，发现也能正常启动，跑了个TA也没问题，至少目前没发现有什么不妥，博主猜测可能某些场景下会直接跳转到load address去跑，这样也不会出问题，等以后有发现再来更新。  
 &emsp;&emsp;这里把地址映射的变化列出来做个比较。  
 初始数据：  
 ```
