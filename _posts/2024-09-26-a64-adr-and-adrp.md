@@ -99,7 +99,7 @@ e107cc8:       910e00c6        add     x6, x6, #0x380
 &emsp;&emsp;结合immhi和immlo，为0xCC，乘以4KB为0xCC000。(0xe1d3000 - 0xe107000)也为0xCC000，同时__end的link address的低12位位0x380，通过第二条add指令还原了低12位，也正确找到了__end的位置。  
 &emsp;&emsp;Perfect！！！  
 
-## Applicable Scenario
+## Example in Opensource
 &emsp;&emsp;这两个指令是ARM64开发中找到symbol正确的地址和runtime计算link address和load address偏移值的必用指令。大概找了下开源项目中boot code中使用这两个指令的地方。如下：  
 - ATF   <https://github.com/TrustedFirmware-A/trusted-firmware-a/blob/v2.9/lib/aarch64/misc_helpers.S#L518>  
 - OPTEE <https://github.com/OP-TEE/optee_os/blob/4.0.0/core/arch/arm/kernel/entry_a64.S#L282>  
