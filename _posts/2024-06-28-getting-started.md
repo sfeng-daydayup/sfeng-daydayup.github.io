@@ -6,7 +6,6 @@ date: 2024-06-28 19:32 +0800
 categories: [Blogging, Misc]
 tags: [misc]
 lang: zh
-pin: true
 ---
 
 &emsp;&emsp;恭喜自己，心念了很久的博客终于开张了。  
