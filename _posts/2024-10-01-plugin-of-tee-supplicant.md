@@ -99,6 +99,6 @@ TEE_Result tee_invoke_supp_plugin(const TEE_UUID *uuid, uint32_t cmd,
 &emsp;&emsp;该函数被link进libutee中，TA可以直接调用。如前所述，这里并没有用syscall的方式，而是通过TEE_OpenTAsession和TEE_InvokeTACommand调用system PTA来完成。具体参看[lib/libutee/tee_system_pta.c](https://github.com/OP-TEE/optee_os/blob/4.0.0/lib/libutee/tee_system_pta.c#L81)的实现。  
 
 ## Reference
-[**Loadable plugins framework**](https://optee.readthedocs.io/en/latest/architecture/globalplatform_api.html#loadable-plugins-framework)
+[**Loadable plugins framework**](https://optee.readthedocs.io/en/latest/architecture/globalplatform_api.html#loadable-plugins-framework)  
 [**OPTEE Example - Plugin**](https://github.com/linaro-swg/optee_examples/tree/master/plugins)  
 [**Loadable plugins in tee-supplicant**](https://github.com/OP-TEE/optee_client/issues/219)  
