@@ -3,7 +3,7 @@ layout: post
 title: Git Commands
 date: 2024-07-15 10:27 +0800
 author: sfeng
-categories: [Blogging, GIT]
+categories: [GIT]
 tags: [git]
 lang: zh
 ---

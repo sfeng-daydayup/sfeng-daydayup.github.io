@@ -3,7 +3,7 @@ layout: post
 title: How to Develop a TA
 author: sfeng
 date: 2024-07-10 16:25 +0800
-categories: [Blogging, OPTEE]
+categories: [OPTEE]
 tags: [optee, ta]
 lang: zh
 ---
