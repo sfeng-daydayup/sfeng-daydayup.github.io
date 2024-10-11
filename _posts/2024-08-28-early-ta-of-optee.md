@@ -3,7 +3,7 @@ layout: post
 title: early TA of OPTEE
 date: 2024-08-28 18:56 +0800
 author: sfeng
-categories: [Blogging, OPTEE]
+categories: [OPTEE]
 tags: [optee, ta]
 lang: zh
 ---

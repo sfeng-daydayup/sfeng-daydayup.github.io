@@ -3,7 +3,7 @@ layout: post
 title: Shared Libraries of TA
 date: 2024-08-27 19:05 +0800
 author: sfeng
-categories: [Blogging, OPTEE]
+categories: [OPTEE]
 tags: [optee, ta]
 lang: zh
 ---

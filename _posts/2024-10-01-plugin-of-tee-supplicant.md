@@ -3,7 +3,7 @@ layout: post
 title: Plugin of TEE-Supplicant
 date: 2024-10-01 11:30 +0800
 author: sfeng
-categories: [Blogging, OPTEE]
+categories: [OPTEE]
 tags: [optee, tee-supplicant]
 lang: zh
 ---

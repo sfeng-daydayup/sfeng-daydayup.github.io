@@ -3,7 +3,7 @@ layout: post
 title: Stack Protector
 date: 2024-09-07 16:03 +0800
 author: sfeng
-categories: [Blogging, Dev]
+categories: [Dev]
 tags: [stack]
 lang: zh
 ---

@@ -3,7 +3,7 @@ layout: post
 title: Hodgepodge of ARM
 date: 2024-09-10 19:55 +0800
 author: sfeng
-categories: [Blogging, ARM]
+categories: [ARM]
 tags: [arm]
 lang: zh
 ---

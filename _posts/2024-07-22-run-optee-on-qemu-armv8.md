@@ -3,7 +3,7 @@ layout: post
 title: Run OPTEE on QEMU ArmV8
 author: sfeng
 date: 2024-07-22 18:11 +0000
-categories: [Blogging, OPTEE]
+categories: [OPTEE]
 tags: [optee, qemu]
 lang: zh
 ---

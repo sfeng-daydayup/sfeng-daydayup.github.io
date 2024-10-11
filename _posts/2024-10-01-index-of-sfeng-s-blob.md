@@ -3,7 +3,7 @@ layout: post
 title: Index of Sfeng's Blob
 date: 2024-10-01 10:21 +0800
 author: sfeng
-categories: [Blogging, Misc]
+categories: [Misc]
 tags: [index]
 lang: zh
 pin: true

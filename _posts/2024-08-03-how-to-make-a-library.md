@@ -3,7 +3,7 @@ layout: post
 title: How to Make a Library
 date: 2024-08-03 18:45 +0800
 author: sfeng
-categories: [Blogging, Dev]
+categories: [Dev]
 tags: [lib]
 lang: zh
 ---

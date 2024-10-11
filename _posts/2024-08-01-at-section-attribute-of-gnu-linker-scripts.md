@@ -3,7 +3,7 @@ layout: post
 title: AT - Section Attribute of GNU Linker Scripts
 date: 2024-08-01 12:02 +0800
 author: sfeng
-categories: [Blogging, GNU Linker]
+categories: [GNU Linker]
 tags: [lds, rom, bl1]
 lang: zh
 ---

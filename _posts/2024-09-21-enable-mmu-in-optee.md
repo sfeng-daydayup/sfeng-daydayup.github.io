@@ -3,7 +3,7 @@ layout: post
 title: Enable MMU in OPTEE
 date: 2024-09-21 11:43 +0800
 author: sfeng
-categories: [Blogging, OPTEE]
+categories: [OPTEE]
 tags: [optee, mmu]
 lang: zh
 ---

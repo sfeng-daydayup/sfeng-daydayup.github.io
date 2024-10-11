@@ -3,7 +3,7 @@ layout: post
 title: Output of OPTEE Build
 author: sfeng
 date: 2024-07-04 18:06 +0800
-categories: [Blogging, OPTEE]
+categories: [OPTEE]
 tags: [optee]
 lang: zh
 ---

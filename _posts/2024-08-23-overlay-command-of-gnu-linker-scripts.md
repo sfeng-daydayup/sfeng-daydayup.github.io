@@ -3,7 +3,7 @@ layout: post
 title: OVERLAY - Command of GNU Linker Scripts
 date: 2024-08-23 19:06 +0800
 author: sfeng
-categories: [Blogging, GNU Linker]
+categories: [GNU Linker]
 tags: [lds]
 lang: zh
 ---

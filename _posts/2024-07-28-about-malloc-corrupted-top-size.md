@@ -3,7 +3,7 @@ layout: post
 title: 'About "malloc(): corrupted top size"'
 date: 2024-07-28 16:28 +0800
 author: sfeng
-categories: [Blogging, Dev]
+categories: [Dev]
 tags: [linux, malloc]
 lang: zh
 ---

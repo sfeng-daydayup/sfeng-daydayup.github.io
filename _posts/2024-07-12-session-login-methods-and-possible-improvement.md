@@ -3,7 +3,7 @@ layout: post
 title: Session Login Methods and Possible Improvement
 author: sfeng
 date: 2024-07-12 18:00 +0800
-categories: [Blogging, OPTEE]
+categories: [OPTEE]
 tags: [optee, security]
 lang: zh
 ---

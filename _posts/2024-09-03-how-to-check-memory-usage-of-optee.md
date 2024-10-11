@@ -3,7 +3,7 @@ layout: post
 title: How to Check Memory Usage of OPTEE
 date: 2024-09-03 18:22 +0800
 author: sfeng
-categories: [Blogging, OPTEE]
+categories: [OPTEE]
 tags: [optee, memory, debug]
 lang: zh
 ---

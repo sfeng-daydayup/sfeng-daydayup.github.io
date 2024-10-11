@@ -3,7 +3,7 @@ layout: post
 title: Open Source Licenses
 date: 2024-07-18 18:30 +0800
 author: sfeng
-categories: [Blogging, Misc]
+categories: [Misc]
 tags: [license]
 lang: zh
 ---

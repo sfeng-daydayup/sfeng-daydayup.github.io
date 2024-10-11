@@ -3,7 +3,7 @@ layout: post
 title: 'A64 : ADR and ADRP'
 date: 2024-09-26 19:51 +0800
 author: sfeng
-categories: [Blogging, ARM]
+categories: [ARM, A64]
 tags: [arm, a64]
 lang: zh
 ---

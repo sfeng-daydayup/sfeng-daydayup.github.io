@@ -3,7 +3,7 @@ layout: post
 title: How to Add a New Flatform
 author: sfeng
 date: 2024-07-05 11:48 +0800
-categories: [Blogging, OPTEE]
+categories: [OPTEE]
 tags: [optee]
 lang: zh
 ---
