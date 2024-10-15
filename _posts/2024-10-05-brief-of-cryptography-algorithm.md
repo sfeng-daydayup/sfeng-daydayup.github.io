@@ -67,10 +67,13 @@ lang: zh
 
 ### Asymmetric-key Algorithm  
 
+> Public-key cryptography, or asymmetric cryptography, is the field of cryptographic systems that use pairs of related keys. Each key pair consists of a public key and a corresponding private key.[1][2] Key pairs are generated with cryptographic algorithms based on mathematical problems termed one-way functions. Security of public-key cryptography depends on keeping the private key secret; the public key can be openly distributed without compromising security.
+{: .prompt-info }  
+
 &emsp;&emsp;既然有了对称密码算法，为啥还要非对称密码算法？在对称密码算法中，密钥只有一把（或者从这把密钥衍生出来），而加密数据的时候必须要持有密钥才能解密，这样密钥的分发和保密就成了问题，当持有密钥的对象增加的时候，密钥流出的风险也随之增大。而非对称密码算法就解决了这个问题。  非对称密码算法一般都有两个密钥，一个叫公钥，一个叫私钥，用任意一把钥匙加密数据，就可以用另外一把解密或者叫验证。当然非对称算法的性能并不好，主要用于签名验签。  
 &emsp;&emsp;这里需要highlight的是，**非对称密码学算法在嵌入式系统中是RoT（Root of Trust）的必要条件**。后续博文中会写如何为构建嵌入式系统的RoT。  
 &emsp;&emsp;非对称密码算法的理论基础主要有以下几种：  
-- [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) 
+- [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem))  
   RSA算法的理论基础是极大整数的因数分解的困难程度（两个大素数的乘积很难分解为两个大素数），当然还有欧拉定理，辗转相除法和欧几里得算法等等。RSA也是目前很流行的签名算法，常用的如RSA1024，RSA2048和RSA4096等，数值越大，强度越大，当然相应的性能越差。  
 - [Elliptic-Curve Cryptography](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography)  
   [椭圆曲线公钥密钥算法](https://juejin.cn/post/6898987351867916301)被广泛认定为在给定密钥长度情况下最强大的非对称算法，比如ECC密钥长度256 bits就可以媲美RSA3072。它又有多种不同的实现：  
