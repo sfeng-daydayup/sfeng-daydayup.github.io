@@ -11,13 +11,16 @@ pin: true
 
 # Index
 
+===============
 ## ARM
 &emsp;&emsp;[Hodgepodge of ARM](https://sfeng-daydayup.github.io/posts/hodgepodge-of-arm/)  
 ### A64
 &emsp;&emsp;&emsp;[ADR and ADRP](https://sfeng-daydayup.github.io/posts/a64-adr-and-adrp/)  
+---------------
 ## RISC-V
 ### RVI
 &emsp;&emsp;&emsp;[AUIPC](https://sfeng-daydayup.github.io/posts/rvi-auipc/)  
+---------------
 ## OPTEE
 &emsp;&emsp;[Overview](https://sfeng-daydayup.github.io/posts/optee-overview/)  
 &emsp;&emsp;[How to Add a New Flatform](https://sfeng-daydayup.github.io/posts/how-to-add-a-new-flatform/)  
@@ -31,15 +34,16 @@ pin: true
 &emsp;&emsp;[How to Check Memory Usage of OPTEE](https://sfeng-daydayup.github.io/posts/how-to-check-memory-usage-of-optee/)  
 &emsp;&emsp;[Enable MMU in OPTEE](https://sfeng-daydayup.github.io/posts/enable-mmu-in-optee/)  
 &emsp;&emsp;[Plugin of TEE-Supplican](https://sfeng-daydayup.github.io/posts/plugin-of-tee-supplicant/)  
-
+---------------
 ## GNU Linker
 &emsp;&emsp;[AT - Section Attribute of GNU Linker Scripts](https://sfeng-daydayup.github.io/posts/at-section-attribute-of-gnu-linker-scripts/)  
 &emsp;&emsp;[OVERLAY - Command of GNU Linker Scripts](https://sfeng-daydayup.github.io/posts/overlay-command-of-gnu-linker-scripts/)  
-
+---------------
 ## Deveopment Skill
 &emsp;&emsp;[How to Make a Library](https://sfeng-daydayup.github.io/posts/how-to-make-a-library/)  
 &emsp;&emsp;[Stack Protector](https://sfeng-daydayup.github.io/posts/stack-protector/)  
-
+---------------
 ## Misc
 &emsp;&emsp;[Open Source Licenses](https://sfeng-daydayup.github.io/posts/open-source-licenses/)  
 &emsp;&emsp;[Git Commands](https://sfeng-daydayup.github.io/posts/git-commands/)  
+---------------
