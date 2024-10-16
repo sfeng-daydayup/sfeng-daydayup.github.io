@@ -10,7 +10,11 @@ lang: zh
 
 ## Preface
 
-&emsp;&emsp;Security在Cambridge Dictionary里的解释是“protection of a person, building, organization, or country against threats such as crime or attacks by foreign countries”，在计算机世界里其实也是一样，只是保护的对象变成了虚拟物品或者实体在计算机世界的投影。在虚拟世界里，保护的手段也不同于现实世界，一般是基于Cryptography的算法并由此衍生出各种应用或者部署。本篇总结下一些常用的密码学算法。因为网络上有很多很好的文章，这里主要把收集的文章的link都放上来，博主拿它当一个字典来用，当然也加了一些简单的说明。  
+&emsp;&emsp;Security在Cambridge Dictionary里的解释是：
+> protection of a person, building, organization, or country against threats such as crime or attacks by foreign countries
+{: .prompt-info }
+
+&emsp;&emsp;计算机世界里也同样适用，只是保护的对象变成了虚拟物品或者实体在计算机世界的投影。在虚拟世界里，保护的手段也不同于现实世界，一般是基于Cryptography的算法并由此衍生出各种应用或者部署。本篇总结下一些常用的密码学算法。因为网络上有很多很好的文章，这里主要把收集的文章的link都放上来，博主拿它当一个字典来用，当然也加了一些简单的说明。  
 
 ## Cryptography Introduction
 
@@ -24,6 +28,8 @@ lang: zh
 &emsp;&emsp;对称密码算法又分为分组密码和流密码算法。这两种算法的[区别](https://www.geeksforgeeks.org/difference-between-block-cipher-and-stream-cipher/)主要在每次加密的数据量不同，分组密码算法每次都是固定块大小，不够一个块需要补全，而流密码算法则每次可以加密一个bit或者byte。  
 
 #### [Block Cipher](https://en.wikipedia.org/wiki/Block_cipher)
+> In cryptography, a block cipher is a deterministic algorithm that operates on fixed-length groups of bits, called blocks. Block ciphers are the elementary building blocks of many cryptographic protocols. They are ubiquitous in the storage and exchange of data, where such data is secured and authenticated via encryption.
+{: .prompt-info }
 
 - [DES](https://en.wikipedia.org/wiki/Data_Encryption_Standard)  
   DES是1977年公布的，它使用56位密码，在目前的计算机算力下已经很容易攻破，所以很少使用它，当然它还有一些变种来增加算法强度，如3DES。  
@@ -36,7 +42,7 @@ lang: zh
 - [SM4](https://en.wikipedia.org/wiki/SM4_(cipher))  
   SM4是国密里对称加密算法。分组长度128 bits，密钥也是128 bits。与[AES相比](https://blog.csdn.net/archimekai/article/details/53096016)算法比较简单，加解密算法相同，只需要密钥顺序倒置。而AES的加解密则是不同的编码。强度方面，SM4只支持128 bits密钥，AES则是从128到256都支持。再说性能([对比1](https://blog.csdn.net/u013565163/article/details/128047911)，[对比2](https://medium.com/asecuritysite-when-bob-met-alice/whats-the-fastest-symmetric-cipher-and-mode-3d6e77841c2b))，单从轮数来说，SM4要32轮，而AES128只需要10轮，综合性能是差一些的，但考虑到是国密，一定要支持。  
 
-&emsp;&emsp;另外，这次总结的一个收获是，原来ECB，CBC等等的工作模式可以应用于除了AES的其他分组加密算法，孤陋寡闻了，不过想想也是，这些策略与分组算法本身是隔离的。分组密码的工作模式如下：  
+&emsp;&emsp;另外，这次总结的一个收获是，原来ECB，CBC等工作模式可以应用于除了AES的其他分组加密算法，孤陋寡闻了，不过想想也是，这些策略与分组算法本身是隔离的。维基百科里以AES为例有很好的图示来解释这些工作模式的区别，copy过来看更直观。  
 
 - ECB  
   ![AES-ECB](/assets/img/aes/aes-ecb.png){: .normal }  
@@ -53,10 +59,12 @@ lang: zh
 - GCM  
   ![AES-GCM](/assets/img/aes/aes-gcm.png){: .normal }  
 
-&emsp;&emsp;维基百科里以AES为例有很好的图示来解释这些工作模式的区别，copy过来看更直观。  
+  
 &emsp;&emsp;用上面的算法对数据进行处理时，主要有几个操作：encryption，decryption，random read。从上面的工作流程可以看出哪些操作可以并行处理，哪些只能串行。另外大部分工作模式下只能保证confidentiality，只有一个可以保证integrity。大家猜猜看！！！  
 
 #### [Stream Cipher](https://en.wikipedia.org/wiki/Stream_cipher)
+> A stream cipher is a symmetric key cipher where plaintext digits are combined with a pseudorandom cipher digit stream (keystream). In a stream cipher, each plaintext digit is encrypted one at a time with the corresponding digit of the keystream, to give a digit of the ciphertext stream.
+{: .prompt-info }
 
 &emsp;&emsp;Stream Cipher在嵌入式开发中使用较少，这里只列举其中几个。  
 
@@ -71,14 +79,18 @@ lang: zh
 {: .prompt-info }  
 
 &emsp;&emsp;既然有了对称密码算法，为啥还要非对称密码算法？在对称密码算法中，密钥只有一把（或者从这把密钥衍生出来），而加密数据的时候必须要持有密钥才能解密，这样密钥的分发和保密就成了问题，当持有密钥的对象增加的时候，密钥流出的风险也随之增大。而非对称密码算法就解决了这个问题。  非对称密码算法一般都有两个密钥，一个叫公钥，一个叫私钥，用任意一把钥匙加密数据，就可以用另外一把解密或者叫验证。当然非对称算法的性能并不好，主要用于签名验签。  
+
 &emsp;&emsp;这里需要highlight的是，**非对称密码学算法在嵌入式系统中是RoT（Root of Trust）的必要条件**。后续博文中会写如何为构建嵌入式系统的RoT。  
+
 &emsp;&emsp;非对称密码算法的理论基础主要有以下几种：  
 - [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem))  
   RSA算法的理论基础是极大整数的因数分解的困难程度（两个大素数的乘积很难分解为两个大素数），当然还有欧拉定理，辗转相除法和欧几里得算法等等。RSA也是目前很流行的签名算法，常用的如RSA1024，RSA2048和RSA4096等，数值越大，强度越大，当然相应的性能越差。  
 - [Elliptic-Curve Cryptography](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography)  
   [椭圆曲线公钥密钥算法](https://juejin.cn/post/6898987351867916301)被广泛认定为在给定密钥长度情况下最强大的非对称算法，比如ECC密钥长度256 bits就可以媲美RSA3072。它又有多种不同的实现：  
   - [ECDSA](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm)  
+    ECDSA是一种签名算法，它可以保证用户收到的由CA签发的证书的有效性。  
   - [ECDH](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman)  
+    ECDH则是一种key交换协议，它可以在两个组织间通过非安全通道来传输保密信息。  
   - [EDDSA](https://en.wikipedia.org/wiki/EdDSA)  
     - [ED25519](https://en.wikipedia.org/wiki/EdDSA#Ed25519)  
       ED25519也是一种很流行的ECC算法，它具有[短密钥，高安全性，高性能](https://ed25519.cr.yp.to/)等等特点。  
@@ -96,7 +108,7 @@ lang: zh
 &emsp;&emsp;Hash function的主要特性是其单向性和唯一性，即通过hash值不能倒推出原文，不同的数据hash值不重复。Hash function其实也分几个类别，比如CRC，checksum和cryptographic hash function，本文主要涉及[Secure Hash Algorithms](https://en.wikipedia.org/wiki/Secure_Hash_Algorithms)。  
 
 - [MD5](https://en.wikipedia.org/wiki/MD5)  
-  md5貌似最常用的是md5sum来查看数据的完整性。  
+  md5最常用的是md5sum来查看数据的完整性。  
 - SHA  
   其实还有SHA0，不过已经弃用了。  
   - [SHA1](https://en.wikipedia.org/wiki/SHA-1)  
@@ -107,8 +119,8 @@ lang: zh
 - [SM3](https://en.wikipedia.org/wiki/SM3_(hash_function))  
   SM3的强度大致和SHA256相当。  
 
-## Thought
-&emsp;&emsp;博主算是数学学的不错的，也对数学很感兴趣，于是把AES和RSA算法都做了研读，但毕竟不是搞算法的，面对更多烧脑的算法，目前实在没有时间去挨个把步骤搞清楚。大多数情况下了解用法就足够了，真正需要的时候再去细细了解吧。  
+
+&emsp;&emsp;这些算法还是很烧脑的，由于有很多商业或者开源的实现，大多数情况下了解它们的特性和用法应该就够用了。  
 
 ## Reference
 [**Cryptography Types**](https://www.ibm.com/think/topics/cryptography-types)  
