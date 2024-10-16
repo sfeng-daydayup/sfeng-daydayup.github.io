@@ -34,7 +34,7 @@ lang: zh
 - [DES](https://en.wikipedia.org/wiki/Data_Encryption_Standard)  
   DES是1977年公布的，它使用56位密码，在目前的计算机算力下已经很容易攻破，所以很少使用它，当然它还有一些变种来增加算法强度，如3DES。  
 - [3DES](https://en.wikipedia.org/wiki/Triple_DES)  
-  3DES如其名，就是做了三次DES操作，当然最多可以用三个K，加密操作为ciphertext = E_{K1}(D_{K2}(E_{K3}(plaintext)))，解密就是E变成D，D变成E。其中K2不能与左右两边的Key相同，所以密钥可以是112 bits（56*2）或者168 bits（56*3）。  
+  3DES如其名，就是做了三次DES操作，当然最多可以用三个K，加密操作为ciphertext = E_{K1}(D_{K2}(E_{K3}(plaintext)))，解密就是E变成D，D变成E。其中K2不能与左右两边的Key相同，所以密钥可以是112 bits或者168 bits。但由于meet-in-the-middle attack，3DES强度和密钥长度并不等同，比如168 bits只相当于112 bits的强度。  
 - [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)  
   AES是目前应用几乎最广泛的分组密码算法了，它的分组长度固定为128 bits，密钥长度可以是128/192/256 bits，密钥长度越长，加密强度越大。  
 - SM1  
