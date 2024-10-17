@@ -34,6 +34,7 @@ pin: true
 
 # Security
 &emsp;&emsp;[Cryptography Algorithm](https://sfeng-daydayup.github.io/posts/brief-of-cryptography-algorithm/)
+&emsp;&emsp;[Cryptography Algorithm](https://sfeng-daydayup.github.io/posts/practice-of-symmetric-key-alg/)
 
 # GNU Linker
 &emsp;&emsp;[AT - Section Attribute of GNU Linker Scripts](https://sfeng-daydayup.github.io/posts/at-section-attribute-of-gnu-linker-scripts/)  
