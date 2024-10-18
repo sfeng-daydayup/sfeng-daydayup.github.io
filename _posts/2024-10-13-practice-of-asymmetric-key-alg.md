@@ -41,6 +41,7 @@ openssl genrsa -out rsa_4096_private.pem 4096
 2. p和q的乘积n  
 3. 随机选择的整数e（为了加快计算速度，一般为65537，即0x10001）  
 4. 用欧拉函数和辗转相除法得到的d  
+
 &emsp;&emsp;其中（n，e）为公钥，（n，d）为私钥。  
 
 &emsp;&emsp;感兴趣的可以用以下命令查看：  
