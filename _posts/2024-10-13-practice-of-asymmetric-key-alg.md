@@ -138,6 +138,11 @@ openssl pkeyutl -sign -inkey sm2_private.pem -in hash.txt -out hash.txt.sm2.sign
 openssl pkeyutl -verify -inkey sm2_public.pem -pubin -in hash.txt -sigfile hash.txt.sm2.sign -rawin -digest sm3
 ```
 
+> 注：
+>   1. openssl并非只有这一种命令格式
+>   2. 签名一般都对hash值进行签名
+{: .prompt-tip }  
+
 ## Reference
 [**RSA Private Key File**](https://mbed-tls.readthedocs.io/en/latest/kb/cryptography/asn1-key-structures-in-der-and-pem/#rsa-private-key-file-pkcs-1)  
 [**openssl-pkey**](https://docs.openssl.org/3.0/man1/openssl-pkey/)  
