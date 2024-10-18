@@ -147,4 +147,5 @@ openssl pkeyutl -verify -inkey sm2_public.pem -pubin -in hash.txt -sigfile hash.
 [**RSA Private Key File**](https://mbed-tls.readthedocs.io/en/latest/kb/cryptography/asn1-key-structures-in-der-and-pem/#rsa-private-key-file-pkcs-1)  
 [**openssl-pkey**](https://docs.openssl.org/3.0/man1/openssl-pkey/)  
 [**Elliptic Curve Cryptography**](https://medium.com/@elusivprivacy/an-introduction-to-elliptic-curve-cryptography-19a6e5752fcf)  
+[**Elliptic Curve Cryptography2**](https://cryptobook.nakov.com/asymmetric-key-ciphers/elliptic-curve-cryptography-ecc)
 [**opensll-pkeyutl**](https://docs.openssl.org/3.0/man1/openssl-pkeyutl)  
