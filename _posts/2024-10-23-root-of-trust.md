@@ -22,7 +22,7 @@ lang: zh
 &emsp;&emsp;第一点很容易理解，第二点则是因为非对称算法的特性可以只分发公钥而始终保持密钥的非公开性，甚至发行者自己都不需要知道密钥是什么。这是对称密钥算法无法比拟的。当然由于对称密钥算法的高效，可以两者融合做出安全性更高的方案。  
 
 ### A Simple RoT
-![rot](/assets/img/rot.jpg){: .normal }   
+![rot](/assets/img/rot.png){: .normal }   
 
 &emsp;&emsp;上图显示了一个最简的RoT系统。其中：  
 1. ROM Code在芯片回片后不能改动  
@@ -35,7 +35,7 @@ lang: zh
 ### RoT with Confidentiality
 &emsp;&emsp;上节描述了一个最简RoT，缺点也很明显，就是所有的data都是明文，通过读取flash做反汇编等方式有可能会被hack（谁又敢保证自己的code没有漏洞呢？）。解决的方法就是把明文加密，这就用到了非对称和对称算法相结合的方式，如下图示意。  
 
-![rot](/assets/img/rot_confidentiality.jpg){: .normal }   
+![rot](/assets/img/rot_confidentiality.png){: .normal }   
 
 &emsp;&emsp;在上图中引入了tee environment，这是因为Symmetirc Key不应被外界获得。其实这里的tee environment算是最低要求，security也需要分级，RoT应该对应在最高security level的运行环境中。另外key的注入也应该在绝对机密的环境中进行。  
 
