@@ -4,7 +4,7 @@ title: Root of Trust
 date: 2024-10-23 18:50 +0800
 author: sfeng
 categories: [Security]
-tags: [alg, security]
+tags: [rot, security]
 lang: zh
 ---
 
