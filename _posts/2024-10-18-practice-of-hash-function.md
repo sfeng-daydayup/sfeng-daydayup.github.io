@@ -31,6 +31,13 @@ openssl dgst -sha256 -binary -out random.sha256.data random.data
 openssl dgst -sm3 -binary -out random.sm3.data random.data
 ```
 
+### HMAC
+```shell
+openssl dgst -sm3  -mac HMAC -macopt hexkey:$HMACKEY -binary -out random.sm3_hmac.data random.data
+or
+openssl mac -digest sm3 -macopt hexkey:$HMACKEY -in random.data -out random.hmac_sm3.data -binary HMAC
+```
+
 ## Applicability
 &emsp;&emsp;Hash的应用很广泛，下面列以下hash在cryptography里的应用。  
 
