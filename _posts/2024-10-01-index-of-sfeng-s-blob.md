@@ -37,6 +37,7 @@ pin: true
 &emsp;&emsp;[Practice of Symmetric-Key Alg](https://sfeng-daydayup.github.io/posts/practice-of-symmetric-key-alg/)  
 &emsp;&emsp;[Practice of Asymmetric-Key Alg](https://sfeng-daydayup.github.io/posts/practice-of-asymmetric-key-alg/)  
 &emsp;&emsp;[Practice of Hash Function](https://sfeng-daydayup.github.io/posts/practice-of-hash-function/)  
+&emsp;&emsp;[Root of Trust](https://sfeng-daydayup.github.io/posts/root-of-trust/)  
 
 # GNU Linker
 &emsp;&emsp;[AT - Section Attribute of GNU Linker Scripts](https://sfeng-daydayup.github.io/posts/at-section-attribute-of-gnu-linker-scripts/)  
