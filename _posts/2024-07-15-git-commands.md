@@ -95,8 +95,10 @@ lang: zh
   git reset --hard //清楚本地改动  
 - whatchanged  
   git whatchanged -[number] //某个或某几个commit都改了哪些文件  
-- reflog
-  git reflog //列出所有的以前在过HEAD的commit，不管远端有没有，很有用
+- reflog  
+  git reflog //列出所有的以前在过HEAD的commit，不管远端有没有，很有用  
+- blame  
+  git blame [file] //列出某个文件每一行的改动历史  
 
 ## Solution to Recover Repo
 &emsp;&emsp;这里推荐几个recover丢失的git repo的方案，当然首要条件是本地存有clone好的完整的repo，这就是git分布式版本控制的好处了。  
