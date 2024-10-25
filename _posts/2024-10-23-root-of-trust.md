@@ -41,6 +41,24 @@ lang: zh
 
 &emsp;&emsp;上面的两个RoT系统都算是比较简单的，但却基本描述了基本要素。开发者可以基于上述模型衍变出更加可靠RoT系统。  
 
+## Keys of RoT
+&emsp;&emsp;这里忍不住要再强调以下，整个RoT的关键在于各种Keys的机密性。分类描述如下：  
+- Factory Keys
+  &emsp;&emsp;所谓factory key是在产品出厂时就生成的，又分为下面两类。  
+  - external key  
+    这里的外部key是指需要外部生成和注入的。  
+    - Asymmetric Key  
+      非对称的密钥保存在所谓的Security Server上，不能leak出去，最好开发者都不能拿到，Server只提供交互命令去做签名操作。  
+    - Symmetric Key  
+      对称密钥不仅要机密的保存在server上，同时也要inject到嵌入式设备RoT的secure storage中。注入过程要严格保密。比如只能在工厂操作。之后使用key的操作同上，Server只提供交互命令，保证使用者不能拿到key。  
+  - internal key  
+    内部key是只在嵌入式设备中使用，且只存在嵌入式设备的TEE环境中且不会应用于外部。最典型应用的比如secure storage。这类key可以从上述注入的key中衍生出来。但还是那句话，不能被人拿到的才是最安全的，能拿到的范围越小越安全。相比从注入key衍生，这个root key通过RoT中的TRNG在出厂时随机生成并保存在RoT的内部NVM中，在使用中通过它衍生出子密钥，博主认为这个安全级别算是很高的。  
+
+- Runtime Keys  
+  运行中使用的key如DRM的应用，可以利用Factory key通过各种密钥交换机制拿到，也需要保存在TEE的环境中。  
+
+&emsp;&emsp;写在最后，本文是博主对RoT个人理解的总结，如有错漏，请指正！！！  
+
 ## Reference
 [**What is RoT**](https://trustedcomputinggroup.org/about/what-is-a-root-of-trust-rot/)  
 [**Hardware RoT**](https://www.rambus.com/blogs/hardware-root-of-trust/)  
