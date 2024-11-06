@@ -40,6 +40,9 @@ pin: true
 &emsp;&emsp;[Root of Trust](https://sfeng-daydayup.github.io/posts/root-of-trust/)  
 &emsp;&emsp;[RPMB](https://sfeng-daydayup.github.io/posts/rpmb/)  
 
+# Boot
+&emsp;&emsp;[boot up of U-boot](https://sfeng-daydayup.github.io/posts/boot-up-of-u-boot/)  
+
 # GNU Linker
 &emsp;&emsp;[AT - Section Attribute of GNU Linker Scripts](https://sfeng-daydayup.github.io/posts/at-section-attribute-of-gnu-linker-scripts/)  
 &emsp;&emsp;[OVERLAY - Command of GNU Linker Scripts](https://sfeng-daydayup.github.io/posts/overlay-command-of-gnu-linker-scripts/)  
