@@ -9,16 +9,16 @@ lang: zh
 pin: true
 ---
 
-# ARM
+## ARM
 &emsp;&emsp;[Hodgepodge of ARM](https://sfeng-daydayup.github.io/posts/hodgepodge-of-arm/)  
-## A64
+### A64
 &emsp;&emsp;&emsp;[ADR and ADRP](https://sfeng-daydayup.github.io/posts/a64-adr-and-adrp/)  
 
-# RISC-V
-## RVI
+## RISC-V
+### RVI
 &emsp;&emsp;&emsp;[AUIPC](https://sfeng-daydayup.github.io/posts/rvi-auipc/)  
 
-# OPTEE
+## OPTEE
 &emsp;&emsp;[Overview](https://sfeng-daydayup.github.io/posts/optee-overview/)  
 &emsp;&emsp;[How to Add a New Flatform](https://sfeng-daydayup.github.io/posts/how-to-add-a-new-flatform/)  
 &emsp;&emsp;[How to Develop a TA](https://sfeng-daydayup.github.io/posts/how-to-develop-a-ta/)  
@@ -32,7 +32,7 @@ pin: true
 &emsp;&emsp;[Enable MMU in OPTEE](https://sfeng-daydayup.github.io/posts/enable-mmu-in-optee/)  
 &emsp;&emsp;[Plugin of TEE-Supplican](https://sfeng-daydayup.github.io/posts/plugin-of-tee-supplicant/)  
 
-# Security
+## Security
 &emsp;&emsp;[Cryptography Algorithm](https://sfeng-daydayup.github.io/posts/brief-of-cryptography-algorithm/)  
 &emsp;&emsp;[Practice of Symmetric-Key Alg](https://sfeng-daydayup.github.io/posts/practice-of-symmetric-key-alg/)  
 &emsp;&emsp;[Practice of Asymmetric-Key Alg](https://sfeng-daydayup.github.io/posts/practice-of-asymmetric-key-alg/)  
@@ -40,17 +40,17 @@ pin: true
 &emsp;&emsp;[Root of Trust](https://sfeng-daydayup.github.io/posts/root-of-trust/)  
 &emsp;&emsp;[RPMB](https://sfeng-daydayup.github.io/posts/rpmb/)  
 
-# Boot
+## Boot
 &emsp;&emsp;[boot up of U-boot](https://sfeng-daydayup.github.io/posts/boot-up-of-u-boot/)  
 
-# GNU Linker
+## GNU Linker
 &emsp;&emsp;[AT - Section Attribute of GNU Linker Scripts](https://sfeng-daydayup.github.io/posts/at-section-attribute-of-gnu-linker-scripts/)  
 &emsp;&emsp;[OVERLAY - Command of GNU Linker Scripts](https://sfeng-daydayup.github.io/posts/overlay-command-of-gnu-linker-scripts/)  
 
-# Deveopment Skill
+## Deveopment Skill
 &emsp;&emsp;[How to Make a Library](https://sfeng-daydayup.github.io/posts/how-to-make-a-library/)  
 &emsp;&emsp;[Stack Protector](https://sfeng-daydayup.github.io/posts/stack-protector/)  
 
-# Misc
+## Misc
 &emsp;&emsp;[Open Source Licenses](https://sfeng-daydayup.github.io/posts/open-source-licenses/)  
 &emsp;&emsp;[Git Commands](https://sfeng-daydayup.github.io/posts/git-commands/)  
