@@ -39,6 +39,7 @@ pin: true
 &emsp;&emsp;[Practice of Hash Function](https://sfeng-daydayup.github.io/posts/practice-of-hash-function/)  
 &emsp;&emsp;[Root of Trust](https://sfeng-daydayup.github.io/posts/root-of-trust/)  
 &emsp;&emsp;[RPMB](https://sfeng-daydayup.github.io/posts/rpmb/)  
+&emsp;&emsp;[Harm of Dead Store Elimination](https://sfeng-daydayup.github.io/posts/harm-of-dead-store-elimination/)  
 
 ## Boot
 &emsp;&emsp;[boot up of U-boot](https://sfeng-daydayup.github.io/posts/boot-up-of-u-boot/)  
