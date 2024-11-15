@@ -170,7 +170,7 @@ void test_memset(void)
 &emsp;&emsp;这里乍一看，没调用memset，确实没调用，但stp，str和strh几条语句把stack里分的buff清零了，strlen正好22字节。Linux里[memzero_explicit](https://github.com/torvalds/linux/blob/master/include/linux/string.h#L372)的实现用的是memory barrier的方案。  
 
 ## Performance
-&emsp;&emsp;在Reference3中，作者做了详细的performance分析，主要关注Large block size情况下的performance吧。结论就是尽量使用原生的memset，不要让它被优化掉可以达到很好的performance，比如Volatile Function Pointer方式。从Linux使用的memroy barrier方式的反汇编看，它每次都利用尽可能把能力范围内最大的buffer清0，比如用neon一下清32Bytes，效率应该也不会差，只不过它没有用loop，博主会担心code size比较大。以下是memory barrier清buff size是161Bytes的反汇编。  
+&emsp;&emsp;在Reference3中，作者做了详细的performance分析，主要关注Large block size情况下的performance吧。结论就是尽量使用原生的memset，不要让它被优化掉可以达到很好的performance，比如Volatile Function Pointer方式。从Linux使用的memroy barrier方式的反汇编看，它每次都尽可能把能力范围内最大的buffer清0，比如用neon一下清32Bytes，效率应该也不会差，只不过它没有用loop，博主会担心code size比较大。以下是memory barrier清buff size是161Bytes的反汇编。  
 ```
   4006f0:       4f000400        movi    v0.4s, #0x0
   4006f4:       3902827f        strb    wzr, [x19, #160]    // 1 Bytes
