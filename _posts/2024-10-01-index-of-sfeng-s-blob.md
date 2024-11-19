@@ -13,6 +13,8 @@ pin: true
 &emsp;&emsp;[Hodgepodge of ARM](https://sfeng-daydayup.github.io/posts/hodgepodge-of-arm/)  
 ### A64
 &emsp;&emsp;&emsp;[ADR and ADRP](https://sfeng-daydayup.github.io/posts/a64-adr-and-adrp/)  
+### Cortex-M
+&emsp;&emsp;&emsp;[PendSV](https://sfeng-daydayup.github.io/posts/pendsv/) 
 
 ## RISC-V
 ### RVI
