@@ -14,7 +14,7 @@ pin: true
 ### A64
 &emsp;&emsp;&emsp;[ADR and ADRP](https://sfeng-daydayup.github.io/posts/a64-adr-and-adrp/)  
 ### Cortex-M
-&emsp;&emsp;&emsp;[PendSV](https://sfeng-daydayup.github.io/posts/pendsv/) 
+&emsp;&emsp;&emsp;[PendSV](https://sfeng-daydayup.github.io/posts/pendsv/)  
 
 ## RISC-V
 ### RVI
