@@ -57,3 +57,4 @@ pin: true
 ## Misc
 &emsp;&emsp;[Open Source Licenses](https://sfeng-daydayup.github.io/posts/open-source-licenses/)  
 &emsp;&emsp;[Git Commands](https://sfeng-daydayup.github.io/posts/git-commands/)  
+&emsp;&emsp;[PPAC](https://sfeng-daydayup.github.io/posts/ppac/)  
