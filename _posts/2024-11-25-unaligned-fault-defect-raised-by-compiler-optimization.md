@@ -208,9 +208,9 @@ lang: zh
 &emsp;&emsp;关于这个问题怎么解决，有以下几个。  
 - 如上提到的，加选项“-fno-store-merging”  
     但这只解决store的问题，还有load呢？  
-- 使用“violatile”修饰词（这也是遇到这个问题最初的一个fix）
+- 使用“violatile”修饰词（这也是遇到这个问题最初的一个fix）  
     也可以，不过解决的alignment问题仅限于开发者能注意到的变量，很多隐藏的还是没解决，也不能每个都加volatile，performance要受影响了。  
-- 申明struct为__attribute__((packed))
+- 申明struct为__attribute__((packed))  
     编译发现并没有，由于结构里都是uint8_t，本来就是packed，而且证明这个属性只影响空间布局
 - 牛人的大招来了，编译选项“-mstrict-align”   
     最初提出这个选项的时候，博主还有些犹豫，因为一个稳定运行很久的系统由于编译选项的变化出问题也不是遇到一次了，后来仔细查看了这个选项的功能，确实是个safe的compile option。而且可以一次性解决所有的unaligned access的问题。当然代价也是有的，类似store-merge之类的优化就没了。  
