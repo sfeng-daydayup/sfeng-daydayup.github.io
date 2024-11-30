@@ -16,20 +16,20 @@ lang: zh
 > The alignment of the access refers to the address being a multiple of the transfer size.  For example, an aligned 32 bit access will have the bottom 4 bits of the address as 0x0, 0x4, 0x8 and 0xC assuming the memory is byte addressed.  
 > An unaligned address is then an address that isn't a multiple of the transfer size.  The meaning in AXI4 would be the same.  
 {: .prompt-info }  
-&emsp;&emsp;如上所述，地址是需要读写的数据长度的整数倍的时候就是aligned access，否则就是unaligned access。当然这要从机器码角度去考虑，不能说随便3字节，7字节啥的，一般size都是2的几次方。之前在[Harm of Dead Store Elimination](https://sfeng-daydayup.github.io/posts/harm-of-dead-store-elimination/)里一些汇编也展示了这一点，从1B，2B到32B都有可能。  
+&emsp;&emsp;如上所述，地址是需要读写的数据长度的整数倍的时候就是aligned access，否则就是unaligned access。当然这要从机器角度去考虑，不是说随便3字节，7字节都可以align，一般size都是2的几次方，比如1B，2B，4B等等。之前在[Harm of Dead Store Elimination](https://sfeng-daydayup.github.io/posts/harm-of-dead-store-elimination/)里一些汇编也展示了这一点，从1B，2B到32B都有汇编指令可以操作。  
 &emsp;&emsp;那为什么不建议unaligned access？查阅资料如下：  
 > 1. Some architectures are able to perform unaligned memory accesses transparently, but there is usually a significant performance cost.  
 > 2. Some architectures raise processor exceptions when unaligned accesses happen. The exception handler is able to correct the unaligned access, at significant cost to performance.  
 > 3. Some architectures raise processor exceptions when unaligned accesses happen, but the exceptions do not contain enough information for the unaligned access to be corrected.  
 > 4. Some architectures are not capable of unaligned memory access, but will silently perform a different memory access to the one that was requested, resulting in a subtle code bug that is hard to detect!  
 {: .prompt-info }  
-&emsp;&emsp;总结下来，也不是不能实现，但performance不是太好。在举例之前先说另外另外一个事。  
+&emsp;&emsp;总结下来，也不是不能实现，但performance不是太好。在举例之前先说另外一个事。  
 > Computers commonly address their memory in word-sized chunks. A word is a computer’s natural unit for data. Its size is defined by the computers architecture. Modern general purpose computers generally have a word-size of either 4 byte (32 bit) or 8 byte (64 bit).
 {: .prompt-info }  
 &emsp;&emsp;也就是主流系统中processor其实每次从总线取的数据位宽都是一样的（即便是burst也是这个size的整数倍）。比如aarch64中，这个位宽一般是8 Bytes。下面是个简单的例子：  
 ![memory_access](/assets/img/memoryaccess.png){: .normal } 
 
-&emsp;&emsp;假如操作地址是0x0，则如图中绿色部分所示，一次传输全部完成，而如果操作地址为0x3，则先传输5 Bytes，第二次再传过来3 Bytes（不考虑burst），另外还需要做移位啥的操作，看起来就挺麻烦的。早先的SoC甚至都不支持这种操作，并把这种行为定义为unaligned fault。实操中确实需要从0x3的地址读取8个字节就要软件自己处理了。  
+&emsp;&emsp;假如操作地址是0x0，则如图中绿色部分所示，一次传输全部完成，而如果操作地址为0x3，则先传输5 Bytes，第二次再传过来3 Bytes（不考虑burst），另外还需要做移位操作，看起来就挺麻烦的。早先的SoC甚至都不支持这种操作，并把这种行为定义为unaligned fault。实操中确实需要从0x3的地址读取8个字节就要软件自己处理了。  
 &emsp;&emsp;关于Arm对unaligned access的支持，文档里有说明，原文copy如下：  
 > The Arm®v6 architecture, with the exception of Armv6-M, introduced the first hardware support for unaligned accesses. Cortex®-A and Cortex-R processors can deal with unaligned accesses in hardware, removing the need for software routines.  
 > Support for unaligned accesses is limited to a subset of load and store instructions:
@@ -60,6 +60,7 @@ lang: zh
     mov x1, #0x7
     str wzr, [x1]
 ```  
+
 &emsp;&emsp;当然，上述只是举例，实际例子中大多隐蔽性很强。  
 
 &emsp;&emsp;本文标题中提到的由编译器优化带来的非对齐访问错误属于哪种呢？都是，又都不是。看下面这段代码。编译并查看汇编。  
@@ -158,21 +159,23 @@ lang: zh
 0000000000002bb0 g     O .bss   0000000000000006 unaligned_test
 ```  
 &emsp;&emsp;unaligned_test在bss里占了6个字节，起始地址为0x2bb0。由此推出：  
-|       变量      |  地址  | 
-|:---------------------:|:---------:|
-| unaligned_test[0].a | 0x2bb0 |
-| unaligned_test[0].b | 0x2bb1 |
-| unaligned_test[0].c | 0x2bb2 |
-| unaligned_test[1].a | 0x2bb3 |
-| unaligned_test[1].b | 0x2bb4 |
-| unaligned_test[1].c | 0x2bb5 |
 
-&emsp;&emsp;那么，无论unaligned_testfunc的输入参数为0还是1，都会遇到strh的地址参数为奇数，也就是unaligned access。神奇吧！！！编译器优化出问题来了！！！  
+|       变量      |  地址  |  赋值  |
+|:---------------------:|:---------:|:---------:|
+| unaligned_test[0].a | 0x2bb0 | 1 |
+| unaligned_test[0].b | 0x2bb1 | 2 |
+| unaligned_test[0].c | 0x2bb2 | 3 |
+| unaligned_test[1].a | 0x2bb3 | 4 |
+| unaligned_test[1].b | 0x2bb4 | 5 |
+| unaligned_test[1].c | 0x2bb5 | 6 |
+
+&emsp;&emsp;那么，无论unaligned_testfunc的输入参数为0还是1，都会遇到strh的地址参数为奇数，也就是unaligned access。神奇吧！！！编译器优化出问题了！！！  
+
 &emsp;&emsp;这里有两个问题：  
 1. unaligned_test_t unaligned_test[2]为啥这样安排  
 2. Os（O2）与O1什么差异导致的这个问题  
 
-&emsp;&emsp;关于#1，博主打算另写一篇文章来总结align和padding。关于#2，参看[**Optimize Options**](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html)后发现其中有一个优化选项叫**-fstore-merging**。那就用“-Os -fno-store-merging”编译看结果。  
+&emsp;&emsp;关于#1，博主打算另写一篇文章来总结align和padding。关于#2，参看[**Optimize Options**](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html)后发现O其中有一个增加的优化选项叫**-fstore-merging**。那就用“-Os -fno-store-merging”编译看结果。  
 ```shell
 0000000000001788 <unaligned_testfunc>:
     1788:       937f7c01        sbfiz   x1, x0, #1, #32
@@ -210,11 +213,11 @@ lang: zh
 - 申明struct为__attribute__((packed))
     编译发现并没有，由于结构里都是uint8_t，本来就是packed，而且证明这个属性只影响空间布局
 - 牛人的大招来了，编译选项“-mstrict-align”   
-    最初提出这个选项的时候，博主还有些犹豫，因为一个稳定运行很久的系统由于编译选项的变化出问题也不是遇到一次了，后来仔细查看了这个选项的功能，更大牛说的匹配上了，这个是个safe的compile option。而且可以一次性解决所有的unaligned access的问题。当然代价也是有的，类似store-merge之类的优化就没了。点赞  
+    最初提出这个选项的时候，博主还有些犹豫，因为一个稳定运行很久的系统由于编译选项的变化出问题也不是遇到一次了，后来仔细查看了这个选项的功能，确实是个safe的compile option。而且可以一次性解决所有的unaligned access的问题。当然代价也是有的，类似store-merge之类的优化就没了。  
     > "strict-align indicates that the compiler should not assume that unaligned memory references are handled by the system."
     {: .prompt-info }  
 
-&emsp;&emsp;其实还可以enable CPU的unaligned access，但这样改动稍大，如前所述，要硬件支持，对于Arm还只对Normal memory有效。另外performance也一样受影响。  
+&emsp;&emsp;其实还可以enable CPU的unaligned access，但这样改动稍大，如前所述，要硬件支持，对于Arm还只对Normal memory有效。另外performance也一样受影响，如果代码有跨多平台移植需求就更不推荐了。  
 
 &emsp;&emsp;最后再提一嘴，关于编译选项变化引起bug，严格说来，这次遇到的问题就是一种表现。但归根到底还是code写的不够严谨。写code并非只需关注软件逻辑，还需要了解硬件运行机制，编译器行为等等。我等40+码农踩过不少坑（吃过的盐！走过的路！嘿嘿），广大公司应该摒弃年龄歧视，踊跃提供岗位，另外，我等也不能沾沾自喜，学海无涯，永无止境！！！（太励志了吧，哈哈）  
 
