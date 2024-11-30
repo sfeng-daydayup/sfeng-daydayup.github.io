@@ -53,6 +53,7 @@ pin: true
 ## Deveopment Skill
 &emsp;&emsp;[How to Make a Library](https://sfeng-daydayup.github.io/posts/how-to-make-a-library/)  
 &emsp;&emsp;[Stack Protector](https://sfeng-daydayup.github.io/posts/stack-protector/)  
+&emsp;&emsp;[Unaligned Fault - Defect Raised by Compiler Optimization](https://sfeng-daydayup.github.io/posts/unaligned-fault-defect-raised-by-compiler-optimization/)  
 
 ## Misc
 &emsp;&emsp;[Open Source Licenses](https://sfeng-daydayup.github.io/posts/open-source-licenses/)  
