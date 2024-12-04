@@ -74,8 +74,6 @@ void print_address(void)
 	printf("d_data = 0x%x\n", (unsigned int)(uintptr_t)&d_data);
 }
 ```  
->  Compiler: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614
-{: .prompt-info }  
 
 &emsp;&emsp;结果如下：   
 ```shell
@@ -136,7 +134,7 @@ typedef struct {
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ```  
 
-&emsp;&emsp;是不是很简单？如果是下面呢？  
+&emsp;&emsp;是不是很简单？如果是结构套结构呢？  
 ```shell
 typedef struct {
     uint8_t a;
@@ -150,7 +148,7 @@ typedef struct {
     test2_t c;
 } test3_t;
 ```  
-&emsp;&emsp;其实也很简单，结果是5。在结构套结构的时候就把内层结构展开，而不是以内层结构的大小再做对齐。  
+&emsp;&emsp;在结构套结构的时候就把内层结构展开，而不是以内层结构的大小做对齐。这里结果是5。  
 
 ```shell
 typedef struct {
@@ -159,7 +157,7 @@ typedef struct {
     uint8_t c;
 } test4_t;
 ```  
-&emsp;&emsp;还有这个呢？结果是24，因为要保证uint64_t的对齐，所以结构的size是其中最大的基本类型的整数倍。既然这样，猜一下下面这个结构所占的size。  
+&emsp;&emsp;还有这个，结果是24，因为要保证uint64_t的对齐，所以结构的size是其中最大的基本类型的整数倍。既然这样，猜一下下面这个结构所占的size。  
 
 ```shell
 typedef struct {
@@ -167,6 +165,11 @@ typedef struct {
     uint8_t b;
 } test5_t;
 ```  
+
+&emsp;&emsp;总结如下：
+- 结构中每个变量都要放在对齐的位置
+- 结构套结构的时候，把内层结构展开
+- 结构大小总是其中最大数据类型大小的整数倍
 
 &emsp;&emsp;另外在某些特殊应用里，开发者不想让编译器把结构做对齐，也可以用__attribute__((packed))来定义结构，这样得到的size就是结构中所以变量size的和。  
 ```shell
@@ -189,6 +192,10 @@ typedef struct {
 #pragma pack(pop)
 ```  
 &emsp;&emsp;上例中在push/pop范围内struct的定义都遵循1B alignment。pop后则恢复默认。当然并非所有的编译器都支持这种方式（本文中所用arm compiler是支持的）。  
+
+&emsp;&emsp;最后附一张对齐非对齐的表以供参考。  
+
+![alignment](/assets/img/alignment.png){: .normal }  
 
 ## Reference
 [**Why LP64?**](https://unix.org/version2/whatsnew/lp64_wp.html)  
