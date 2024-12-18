@@ -50,11 +50,13 @@ pin: true
 &emsp;&emsp;[AT - Section Attribute of GNU Linker Scripts](https://sfeng-daydayup.github.io/posts/at-section-attribute-of-gnu-linker-scripts/)  
 &emsp;&emsp;[OVERLAY - Command of GNU Linker Scripts](https://sfeng-daydayup.github.io/posts/overlay-command-of-gnu-linker-scripts/)  
 
-## Deveopment Skill
+## Development
 &emsp;&emsp;[How to Make a Library](https://sfeng-daydayup.github.io/posts/how-to-make-a-library/)  
 &emsp;&emsp;[Stack Protector](https://sfeng-daydayup.github.io/posts/stack-protector/)  
 &emsp;&emsp;[Unaligned Fault - Defect Raised by Compiler Optimization](https://sfeng-daydayup.github.io/posts/unaligned-fault-defect-raised-by-compiler-optimization/)  
 &emsp;&emsp;[Alignment and Padding](https://sfeng-daydayup.github.io/posts/alignment-and-padding/)  
+### Development Tips
+&emsp;&emsp;&emsp;[Definition of MACRO](https://sfeng-daydayup.github.io/posts/definition-of-macro/)  
 
 ## Misc
 &emsp;&emsp;[Open Source Licenses](https://sfeng-daydayup.github.io/posts/open-source-licenses/)  
