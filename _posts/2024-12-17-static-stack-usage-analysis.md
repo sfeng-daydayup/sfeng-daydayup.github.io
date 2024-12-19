@@ -183,7 +183,8 @@ edge: { sourcename: "main" targetname: "func6_dynamic" label: "test.c:55:2" }
 4. 要考虑interrupt带来的额外stack开销。  
 5. 如果开启了FPU，NEON之类的功能，stack也要考虑相应增加的开销。  
 6. 递归调用会造成偏差。  
-7. 每个source文件都会生成一个.ci文件，parse的时候需要把他们cat到一起。  
+7. 函数指针，动态调用会使调用链断开。  
+8. 每个source文件都会生成一个.ci文件，parse的时候需要把他们cat到一起。  
 
 &emsp;&emsp;总之stack size的确定并不简单，本文介绍了其中一种可能的方法，毕竟没有方法是万能的。另外在reference的文档里还介绍了一种动态检测的方法，但也存在其他问题，有兴趣可以研究下这篇文章[**Stack Analysis**](https://www.adacore.com/uploads/techPapers/Stack_Analysis.pdf)。  
 
