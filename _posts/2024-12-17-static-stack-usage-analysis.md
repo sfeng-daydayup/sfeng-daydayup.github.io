@@ -185,7 +185,7 @@ edge: { sourcename: "main" targetname: "func6_dynamic" label: "test.c:55:2" }
 6. 递归调用会造成偏差。  
 7. 每个source文件都会生成一个.ci文件，parse的时候需要把他们cat到一起。  
 
-&emsp;&emsp;总之stack size的确定并不简单，本文介绍了其中一种可能的方法，适用范围其实是有限的。还有一种动态检测的方法，但也存在其他问题，有兴趣可以研究下这篇文章[**Stack Analysis**](https://www.adacore.com/uploads/techPapers/Stack_Analysis.pdf)。  
+&emsp;&emsp;总之stack size的确定并不简单，本文介绍了其中一种可能的方法，毕竟没有方法是万能的。另外在reference的文档里还介绍了一种动态检测的方法，但也存在其他问题，有兴趣可以研究下这篇文章[**Stack Analysis**](https://www.adacore.com/uploads/techPapers/Stack_Analysis.pdf)。  
 
 ## End
 &emsp;&emsp;最后，博主通过查看dump出的asm文件，发现stack的操作及函数调用关系在asm文件中都有体现，是否可以通过parse asm文件来确定？留待后续实践，预计也不会一帆风顺。  
