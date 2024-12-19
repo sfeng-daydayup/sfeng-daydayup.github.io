@@ -32,6 +32,7 @@ lang: zh
 - dynamic 与static相反，function的local variable的size在runtime是变化的话，例如基于输入数据或者递归调用，就是dynamic。  
 - bounded 接着上面，虽然stack的使用依赖运行时条件，但使用stack的上限可预知，那就是bounded。  
 &emsp;&emsp;直接来个例子更容易理解。  
+
 ```sass
 int t = 0;
 
@@ -93,6 +94,7 @@ void main(void)
 {: .prompt-info }  
 
 &emsp;&emsp;带-fstack-usage编译后生成了.su文件。如下：  
+
 ```sass
 test.c:6:6:func1_static 16      static
 test.c:12:6:func2_static        32      static
@@ -117,6 +119,7 @@ test.c:47:6:main        16      static
 {: .prompt-info }
 
 &emsp;&emsp;编译的时候加上这个选项会生成一个.ci文件，它可以用VCG viewer生成可视化的call graph图片。本文并不需要生成图片，只需要理清调用关系就可以了。上例中生成的.ci文件如下：  
+
 ```sass
 graph: { title: "test.c"
 node: { title: "func1_static" label: "func1_static\ntest.c:6:6" }
@@ -140,6 +143,7 @@ edge: { sourcename: "main" targetname: "func6_dynamic" label: "test.c:55:2" }
 {: file='test.ci'}
 
 &emsp;&emsp;其实到这里已经可以结合test.ci和test.su算出需要的最大stack了，然而callgraph-info还支持MARKERS，当MARKDERS设为su时，stack-usage的信息也会出现在.ci中。如下：  
+
 ```sass
 graph: { title: "test.c"
 node: { title: "func1_static" label: "func1_static\ntest.c:6:6\n16 bytes (static)" }
@@ -184,7 +188,7 @@ edge: { sourcename: "main" targetname: "func6_dynamic" label: "test.c:55:2" }
 &emsp;&emsp;总之stack size的确定并不简单，本文介绍了其中一种可能的方法，适用范围其实是有限的。还有一种动态检测的方法，但也存在其他问题，有兴趣可以研究下这篇文章[**Stack Analysis**](https://www.adacore.com/uploads/techPapers/Stack_Analysis.pdf)。  
 
 ## End
-&emsp;&emsp;最后，博主通过查看dump出的asm文件，发现stack的操作及函数调用关系在asm文件中都有体现，是否可以通过parse asm文件来确定？留待后续实践。  
+&emsp;&emsp;最后，博主通过查看dump出的asm文件，发现stack的操作及函数调用关系在asm文件中都有体现，是否可以通过parse asm文件来确定？留待后续实践，预计也不会一帆风顺。  
 
 ## Reference
 [**Static Stack Usage Analysis**](https://gcc.gnu.org/onlinedocs/gnat_ugn/Static-Stack-Usage-Analysis.html)  
