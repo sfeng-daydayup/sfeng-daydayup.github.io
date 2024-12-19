@@ -55,6 +55,7 @@ pin: true
 &emsp;&emsp;[Stack Protector](https://sfeng-daydayup.github.io/posts/stack-protector/)  
 &emsp;&emsp;[Unaligned Fault - Defect Raised by Compiler Optimization](https://sfeng-daydayup.github.io/posts/unaligned-fault-defect-raised-by-compiler-optimization/)  
 &emsp;&emsp;[Alignment and Padding](https://sfeng-daydayup.github.io/posts/alignment-and-padding/)  
+&emsp;&emsp;[Static Stack Usage Analysis](https://sfeng-daydayup.github.io/posts/static-stack-usage-analysis/)  
 ### Development Tips
 &emsp;&emsp;&emsp;[Definition of MACRO](https://sfeng-daydayup.github.io/posts/definition-of-macro/)  
 
