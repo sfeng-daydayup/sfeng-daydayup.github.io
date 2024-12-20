@@ -13,7 +13,7 @@ lang: zh
 &emsp;&emsp;在嵌入式系统中，资源的有限性是不争的事实，特别是可用的内存（SRAM, DRAM，TCM etc.）大多数情况下都不是那么富裕，这就需要对内存的使用精打细算了。本文介绍一种方法来帮助开发者分析stack的大小。这是因为stack其实对开发者来说是个隐含条件，并没有标准简单的方法拿到合适的值。大多数会在stack溢出的时候才会通过加大stack的方法解决问题，而debug stack问题本身就是一个很棘手的事情，因为这类问题更像一个随机的bug，所以干脆在开始就指定一个比较大的stack，这样就造成一定的浪费。  
 
 ## Useful GCC Options
-&emsp;&emsp;本着尽量简单和使用已有工具的原则，编译器就是首选的工具。因为编译器把源文件编译为最终的机器码，理论上编译器应该掌握所有的细节。只在于它是否把这些信息expose出来。来看看下面两个GCC option。  
+&emsp;&emsp;本着尽量简单和使用已有工具的原则，编译器就是首选的工具。因为编译器把源文件编译为最终的机器码，理论上编译器应该掌握所有的细节。只在于能否把这些信息expose出来。来看看下面两个GCC option。  
 
 >  Compiler: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614
 {: .prompt-info }  
@@ -108,7 +108,7 @@ test.c:47:6:main        16      static
 
 &emsp;&emsp;今天不讨论为什么每个function的stack大小是上面所列数值（回头另写一篇文章仔细分析），唯一要注意的是使用了VLA的function的stack size是不准确的，同时再次建议用malloc从heap动态分配。  
 
-&emsp;&emsp;test.su中列出了每个function要用到的stack大小，那如何计算stack的极限近似值呢？这就又涉及到另外一个GCC Option了。  
+&emsp;&emsp;test.su中列出了每个function要用到的stack大小，那如何计算stack的极限近似值呢？关键的问题其实在于生成靠谱的call graph。GCC提供了一个Option。  
 
 ### fcallgraph-info
 
@@ -176,7 +176,7 @@ edge: { sourcename: "main" targetname: "func6_dynamic" label: "test.c:55:2" }
 7. 这个时候最大stack的值就是最终值  
 
 ## Note
-&emsp;&emsp;看起来是不是很简单，实际上还有其他因素需要考虑。  
+&emsp;&emsp;其实问题并没有解决，还有其他因素需要考虑。  
 1. 对于bootloader类型的单线程任务，计算从entry开始的最大stack就可以了。但对跑RTOS的系统，要根据每个thread/task的入口函数计算各自的stack值。  
 2. assembly code的分析并不到位。如果之后的c文件中有调用assembly function，call graph可能就断了，需要手动操作连起来。  
 3. 如前面提到的，对于动态内存需求，从heap分配，而避免使用诸如VLA或者alloca之类的方案。  
@@ -186,10 +186,10 @@ edge: { sourcename: "main" targetname: "func6_dynamic" label: "test.c:55:2" }
 7. 函数指针，动态调用会使调用链断开。  
 8. 每个source文件都会生成一个.ci文件，parse的时候需要把他们cat到一起。  
 
-&emsp;&emsp;总之stack size的确定并不简单，本文介绍了其中一种可能的方法，毕竟没有方法是万能的。另外在reference的文档里还介绍了一种动态检测的方法，但也存在其他问题，有兴趣可以研究下这篇文章[**Stack Analysis**](https://www.adacore.com/uploads/techPapers/Stack_Analysis.pdf)。  
+&emsp;&emsp;静态分析计算stack size的关键点在于call graph的生成。本文介绍了一种可能的方法，其也有适用范围和局限性。另外在reference的文档里还介绍了一种动态检测的方法，但也存在其他问题，有兴趣可以研究下这篇文章[**Stack Analysis**](https://www.adacore.com/uploads/techPapers/Stack_Analysis.pdf)。  
 
 ## End
-&emsp;&emsp;最后，博主通过查看dump出的asm文件，发现stack的操作及函数调用关系在asm文件中都有体现，是否可以通过parse asm文件来确定？留待后续实践，预计也不会一帆风顺。  
+&emsp;&emsp;最后，博主通过查看dump出的asm文件，发现stack的操作及函数调用关系在asm文件中都有体现，是否可以通过parse asm文件来确定？留待后续实践。  
 
 ## Reference
 [**Static Stack Usage Analysis**](https://gcc.gnu.org/onlinedocs/gnat_ugn/Static-Stack-Usage-Analysis.html)  
