@@ -20,6 +20,7 @@ lang: zh
 
 ### fstack-usage
 > -fstack-usage
+
 >   Makes the compiler output stack usage information for the program, on a per-function basis. The filename for the dump is made by appending .su to the auxname. auxname is generated from the name of the output file, if explicitly specified and it is not an executable, otherwise it is the basename of the source file. 
 {: .prompt-info } 
 
@@ -113,8 +114,11 @@ test.c:47:6:main        16      static
 ### fcallgraph-info
 
 > -fcallgraph-info
+
 > -fcallgraph-info=MARKERS
+
 >   Makes the compiler output callgraph information for the program, on a per-object-file basis. The information is generated in the common VCG format. It can be decorated with additional, per-node and/or per-edge information, if a list of comma-separated markers is additionally specified. When the su marker is specified, the callgraph is decorated with stack usage information; it is equivalent to -fstack-usage. When the da marker is specified, the callgraph is decorated with information about dynamically allocated objects.
+
 > 注：这个选项要比较新的GCC编译器才支持。
 {: .prompt-info }
 

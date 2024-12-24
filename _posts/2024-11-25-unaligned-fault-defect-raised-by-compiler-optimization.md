@@ -36,6 +36,7 @@ lang: zh
 > - LDRB, LDRSB, and STRB.
 > - LDRH, LDRSH, and STRH.
 > - LDR and STR.
+
 > Instructions that do not support unaligned accesses include:
 > - LDM and STM.
 > - LDRD and STRD.
