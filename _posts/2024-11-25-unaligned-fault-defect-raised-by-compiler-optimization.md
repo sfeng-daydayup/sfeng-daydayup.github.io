@@ -32,14 +32,14 @@ lang: zh
 &emsp;&emsp;假如操作地址是0x0，则如图中绿色部分所示，一次传输全部完成，而如果操作地址为0x3，则先传输5 Bytes，第二次再传过来3 Bytes（不考虑burst），另外还需要做移位操作，看起来就挺麻烦的。早先的SoC甚至都不支持这种操作，并把这种行为定义为unaligned fault。实操中确实需要从0x3的地址读取8个字节就要软件自己处理了。  
 &emsp;&emsp;关于Arm对unaligned access的支持，文档里有说明，原文copy如下：  
 > The Arm®v6 architecture, with the exception of Armv6-M, introduced the first hardware support for unaligned accesses. Cortex®-A and Cortex-R processors can deal with unaligned accesses in hardware, removing the need for software routines.  
-> Support for unaligned accesses is limited to a subset of load and store instructions:
-> - LDRB, LDRSB, and STRB.
-> - LDRH, LDRSH, and STRH.
-> - LDR and STR.
+> Support for unaligned accesses is limited to a subset of load and store instructions:  
+> - LDRB, LDRSB, and STRB.  
+> - LDRH, LDRSH, and STRH.  
+> - LDR and STR.  
 
-> Instructions that do not support unaligned accesses include:
-> - LDM and STM.
-> - LDRD and STRD.
+> Instructions that do not support unaligned accesses include:  
+> - LDM and STM.  
+> - LDRD and STRD.  
 {: .prompt-info }  
 &emsp;&emsp;虽然有支持，一方面硬件增加了这部分实现逻辑，变复杂了，另一方面，使用前需要配置，在Armv8-A中由SCTLR的{A, nAA}控制，另外还有其他条件，比如只对Normal memory有效（Cache enable？），Device memory无效。这也大概印证了总线协议中AXI支持非对齐访问，而AHB和APB则不支持（想支持就得加另外的硬件组合逻辑）。  
 
