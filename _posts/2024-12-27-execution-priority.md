@@ -48,7 +48,7 @@ lang: zh
     - 设置AIRCR的SYSRESETREQ引起的warm reset并不保证立即发生。  
 - 由于secure state的引入，一些registers是banked。  
     - R13（SP） 前面提到，Cortex-M中为PE提供了MSP和PSP两个SP，现在PE分secure和non-secure state，自然为每个state标配一套。其中handler mode还是用MSP，thread mode通过CONTROL寄存器的SPSEL（the bit is banded by security state）选择。  
-    ![security_msp_psp](/assets/img/cortexm/security_msp_psp.jpg){: .normal }  
+    ![secure_msp_psp](/assets/img/cortexm/secure_msp_psp.jpg){: .normal }  
     - Special-purpose registers
         - PRIMASK, BASEPRI, and FAULTMASK
         - CONTROL register
