@@ -17,6 +17,7 @@ pin: true
 &emsp;&emsp;&emsp;[PendSV](https://sfeng-daydayup.github.io/posts/pendsv/)  
 &emsp;&emsp;&emsp;[MPU](https://sfeng-daydayup.github.io/posts/mpu/)  
 &emsp;&emsp;&emsp;[SA and SAU](https://sfeng-daydayup.github.io/posts/sa-and-sau/)  
+&emsp;&emsp;&emsp;[Execution Priority](https://sfeng-daydayup.github.io/posts/execution-priority/)  
 
 ## RISC-V
 ### RVI
