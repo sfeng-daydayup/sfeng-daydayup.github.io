@@ -99,7 +99,7 @@ lang: zh
 &emsp;&emsp;使用BASEPRI也是一样，它只是“changes the priority level required for exception preemption”，并没有真正禁止interrupt。  
 
 ## Execution Priority Transition
-&emsp;&emsp;Spec上讲的各种模式之间的切换，说到底，都是execution priority的改变，这节看下它们之间如何转换。  
+&emsp;&emsp;这节看下各种模式之间如何转换。  
 
 ### Handler mode and thread mode
 > By default, the Cortex-M processors start in privileged Thread mode and in Thumb state. In many simple applications, there is no need to use the unprivileged Thread model and the banked SP at all.
@@ -125,7 +125,7 @@ lang: zh
 
 ![transitions](/assets/img/cortexm/transitions.png){: .normal }  
 
-&emsp;&emsp;关于这部分的实践，建议选取某个RTOS进行代码研读，以便加深理解。  
+&emsp;&emsp;各种模式之间的切换本质上都是execution priority的改变。关于这部分的实践，建议选取某个RTOS进行代码研读，以便加深理解。  
 
 ## Reference
 [**Armv8-M Architecture Reference Manual**](https://developer.arm.com/documentation/ddi0553/latest)  
