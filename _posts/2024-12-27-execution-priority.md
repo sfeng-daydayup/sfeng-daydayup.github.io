@@ -119,6 +119,12 @@ lang: zh
 ![security_state_transitions](/assets/img/cortexm/security_state_transitions.jpg){: .normal }  
 ![security_state_transitions](/assets/img/cortexm/security_state_transitions.png){: .normal }  
 
+&emsp;&emsp;把exception和interrupt加进来就更复杂了。  
+> State transitions can also happen due to exceptions and interrupts. Each interrupt can be configured as Secure or Non-secure, and is determined by the Interrupt Target Non-secure (NVIC_ITNS) register, which is only programmable in the Secure world. There are no restrictions regarding whether a Non-secure or Secure interrupt can take place when the processing is running Non-secure or Secure code.
+{: .prompt-info }   
+
+![transitions](/assets/img/cortexm/transitions.png){: .normal }  
+
 &emsp;&emsp;关于这部分的实践，建议选取某个RTOS进行代码研读，以便加深理解。  
 
 ## Reference
