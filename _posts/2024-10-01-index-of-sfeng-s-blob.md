@@ -64,6 +64,7 @@ pin: true
 &emsp;&emsp;[Static Stack Usage Analysis](https://sfeng-daydayup.github.io/posts/static-stack-usage-analysis/)  
 ### Development Tips
 &emsp;&emsp;&emsp;[Definition of MACRO](https://sfeng-daydayup.github.io/posts/definition-of-macro/)  
+&emsp;&emsp;&emsp;[Generate Link Script File From ld.S](https://sfeng-daydayup.github.io/posts/generate-link-script-file-from-ld-s/)  
 
 ## Misc
 &emsp;&emsp;[Open Source Licenses](https://sfeng-daydayup.github.io/posts/open-source-licenses/)  
