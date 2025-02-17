@@ -174,6 +174,7 @@ SECTIONS
     __StackTopm = .;
   } > RAM1
 }
+```
 {: file='output/platform1/test.ld'}  
 
 &emsp;&emsp;生成platform2的命令如下：  
@@ -220,6 +221,7 @@ SECTIONS
     __StackTopm = .;
   } > RAM1
 }
+```
 {: file='output/platform2/test.ld'}  
 
 &emsp;&emsp;然后该lds文件就可以在link的时候用了。  
