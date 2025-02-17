@@ -62,9 +62,11 @@ pin: true
 &emsp;&emsp;[Unaligned Fault - Defect Raised by Compiler Optimization](https://sfeng-daydayup.github.io/posts/unaligned-fault-defect-raised-by-compiler-optimization/)  
 &emsp;&emsp;[Alignment and Padding](https://sfeng-daydayup.github.io/posts/alignment-and-padding/)  
 &emsp;&emsp;[Static Stack Usage Analysis](https://sfeng-daydayup.github.io/posts/static-stack-usage-analysis/)  
+&emsp;&emsp;&emsp;[Generate Link Script File From ld.S](https://sfeng-daydayup.github.io/posts/generate-link-script-file-from-ld-s/)  
+
 ### Development Tips
 &emsp;&emsp;&emsp;[Definition of MACRO](https://sfeng-daydayup.github.io/posts/definition-of-macro/)  
-&emsp;&emsp;&emsp;[Generate Link Script File From ld.S](https://sfeng-daydayup.github.io/posts/generate-link-script-file-from-ld-s/)  
+
 
 ## Misc
 &emsp;&emsp;[Open Source Licenses](https://sfeng-daydayup.github.io/posts/open-source-licenses/)  

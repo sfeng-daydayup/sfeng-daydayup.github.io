@@ -15,10 +15,10 @@ lang: zh
 &emsp;&emsp;在现代编译系统中，当编译器产生一个目标文件（包括可执行文件或者是libary）时，都需要用link script的参与来做link。主要作用在于如何在空间上安排其中的汇编代码，包括诸如入口函数，text段位置，rodata/data段位置，bss，stack，heap甚至还有开发者自定义的段等等。某些情况下即便没有指定link file，编译器也会使用默认的script来产生目标文件。  
 &emsp;&emsp;回到嵌入式SoC的开发中，由于芯片项目会有前后继承关系，某阶段代码大约是类似的，可能会根据芯片型号或者项目做微调，关联到本文提到的LDS文件，有可能会对空间布局稍作改动，如果为每次改动都重新写一个LDS文件，免不了会变得混乱，Makefile也会多很多分支。本文参照ATF和Linux的编译系统，对它们使用编译器的预处理功能把.ld.S转化为.ld文件做了一个总结。  
 
-- ATF的ld.S文件
-[bl1/bl1.ld.S](https://github.com/TrustedFirmware-A/trusted-firmware-a/blob/v2.9.0/bl1/bl1.ld.S)
-[bl31/bl31.ld.S](https://github.com/TrustedFirmware-A/trusted-firmware-a/blob/v2.9.0/bl31/bl31.ld.S)    
-- Linux的ld.S文件
+- ATF的ld.S文件  
+[bl1/bl1.ld.S](https://github.com/TrustedFirmware-A/trusted-firmware-a/blob/v2.9.0/bl1/bl1.ld.S)  
+[bl31/bl31.ld.S](https://github.com/TrustedFirmware-A/trusted-firmware-a/blob/v2.9.0/bl31/bl31.ld.S)  
+- Linux的ld.S文件  
 [arch/arm64/kernel/vmlinux.lds.S](https://github.com/torvalds/linux/blob/v5.15/arch/arm64/kernel/vmlinux.lds.S)  
 
 ## Compile Option of GCC
@@ -136,11 +136,11 @@ SECTIONS
 ```
 {: file='platform2/platform.h'}  
 
-&emsp;&emsp;生成platform1的命令如下：  
+&emsp;&emsp;生成platform1的lds的命令如下：  
 ```shell
 cpp -Iplatform1 -P -x assembler-with-cpp -o output/platform1/test.ld test.ld.S
 ```  
-&emsp;&emsp;生成文件为：  
+&emsp;&emsp;生成的lds为：  
 ```sass
 OUTPUT_FORMAT("elf64-littleaarch64")
 OUTPUT_ARCH("aarch64")
@@ -177,11 +177,11 @@ SECTIONS
 ```
 {: file='output/platform1/test.ld'}  
 
-&emsp;&emsp;生成platform2的命令如下：  
+&emsp;&emsp;生成platform2的lds的命令如下：  
 ```shell
 cpp -Iplatform2 -DCORTEX_M_TZ -P -x assembler-with-cpp -o output/platform2/test.ld test.ld.S
 ```  
-&emsp;&emsp;生成文件为：  
+&emsp;&emsp;生成lds为：  
 ```sass
 OUTPUT_FORMAT("elf32-littlearm")
 OUTPUT_ARCH("arm")
