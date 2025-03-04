@@ -43,7 +43,7 @@ lang: zh
   - callee返回caller时要从栈里恢复LR  
 
 ## Example
-&emsp;&emsp;来看一个三重调用的例子。  
+&emsp;&emsp;来看一个多重调用的例子。  
 ```sass
 int callee2(int a, int b)
 {
@@ -77,24 +77,24 @@ void _start(void)
 &emsp;&emsp;直接反汇编看结果吧，这里是aarch64的。  
 ```sass
 00000000004000e8 <callee2>:
-  4000e8:       d10083ff        sub     sp, sp, #0x20
-  4000ec:       b9000fe0        str     w0, [sp, #12]
-  4000f0:       b9000be1        str     w1, [sp, #8]
-  4000f4:       b9001fff        str     wzr, [sp, #28]
+  4000e8:       d10083ff        sub     sp, sp, #0x20          (9)
+  4000ec:       b9000fe0        str     w0, [sp, #12]          (10)
+  4000f0:       b9000be1        str     w1, [sp, #8]           (11)
+  4000f4:       b9001fff        str     wzr, [sp, #28]         (12)
   4000f8:       b9400fe1        ldr     w1, [sp, #12]
   4000fc:       b9400be0        ldr     w0, [sp, #8]
   400100:       0b000020        add     w0, w1, w0
-  400104:       b9001fe0        str     w0, [sp, #28]
+  400104:       b9001fe0        str     w0, [sp, #28]          (13)
   400108:       b9401fe0        ldr     w0, [sp, #28]
   40010c:       910083ff        add     sp, sp, #0x20
   400110:       d65f03c0        ret
 
 0000000000400114 <callee1>:
-  400114:       a9bd7bfd        stp     x29, x30, [sp, #-48]!
+  400114:       a9bd7bfd        stp     x29, x30, [sp, #-48]!   (5)
   400118:       910003fd        mov     x29, sp               //更新fp
-  40011c:       b9001fe0        str     w0, [sp, #28]
-  400120:       b9001be1        str     w1, [sp, #24]
-  400124:       b9002fff        str     wzr, [sp, #44]
+  40011c:       b9001fe0        str     w0, [sp, #28]           (6)
+  400120:       b9001be1        str     w1, [sp, #24]           (7)
+  400124:       b9002fff        str     wzr, [sp, #44]          (8)
   400128:       b9401be1        ldr     w1, [sp, #24]
   40012c:       b9401fe0        ldr     w0, [sp, #28]
   400130:       97ffffee        bl      4000e8 <callee2>
@@ -104,13 +104,13 @@ void _start(void)
   400140:       d65f03c0        ret
 
 0000000000400144 <_start>:
-  400144:       a9be7bfd        stp     x29, x30, [sp, #-32]!
+  400144:       a9be7bfd        stp     x29, x30, [sp, #-32]!   (1)
   400148:       910003fd        mov     x29, sp               // 更新fp
-  40014c:       b9001fff        str     wzr, [sp, #28]
+  40014c:       b9001fff        str     wzr, [sp, #28]          (2)
   400150:       52800020        mov     w0, #0x1                        // #1
-  400154:       b9001be0        str     w0, [sp, #24]
+  400154:       b9001be0        str     w0, [sp, #24]           (3)
   400158:       52800040        mov     w0, #0x2                        // #2
-  40015c:       b90017e0        str     w0, [sp, #20]
+  40015c:       b90017e0        str     w0, [sp, #20]           (4)
   400160:       b94017e1        ldr     w1, [sp, #20]
   400164:       b9401be0        ldr     w0, [sp, #24]
   400168:       97ffffeb        bl      400114 <callee1>
@@ -124,39 +124,39 @@ void _start(void)
 &emsp;&emsp;可以根据上面的汇编来反推出调用到callee2时候这部分stack的内容。假设进入_start时sp为0x1000，则如下：  
 ```sass
 !!!!!!          由于callee2为调用的最后一个环节，lr不会变不用存，而sp则函数内自己维护
-0x0f90          9. sub     sp, sp, #0x20  //更新sp为0xf90（注：返回前又加了0x20恢复回来了）
+0x0f90          (9). sub     sp, sp, #0x20  //更新sp为0xf90（注：返回前又加了0x20恢复回来了）
 0x0f94
-0x0f98  #2      11.str     w1, [sp, #8]   //存参数1
-0x0f9c  #1      10.str     w0, [sp, #12]  //存参数0
+0x0f98  #2      (11).str     w1, [sp, #8]   //存参数1
+0x0f9c  #1      (10).str     w0, [sp, #12]  //存参数0
 0x0fa0
 0x0fa4
 0x0fa8
-0x0fac  #0      12.str     wzr, [sp, #28] //清0 c_l3
-        #3      13.str     w0, [sp, #28]  //把计算结果存在此位置
+0x0fac  #0      (12).str     wzr, [sp, #28] //清0 c_l3
+        #3      (13).str     w0, [sp, #28]  //把计算结果存在此位置
 !!!!!!          callee1的stack frame，跳至callee2时sp为0x0fb0
-0x0fb0  x29_l   5. stp     x29, x30, [sp, #-48]!  //存_start的fp，lr，sp变为0x0fb0
+0x0fb0  x29_l   (5). stp     x29, x30, [sp, #-48]!  //存_start的fp，lr，sp变为0x0fb0
 0x0fb4  x29_h
 0x0fb8  x30_l
 0x0fbc  x30_h
 0x0fc0
 0x0fc4
-0x0fc8  #2      7. str     w1, [sp, #24]  //参数1存在该地址
-0x0fcc  #1      6. str     w0, [sp, #28]  //参数0存在该地址
+0x0fc8  #2      (7). str     w1, [sp, #24]  //参数1存在该地址
+0x0fcc  #1      (6). str     w0, [sp, #28]  //参数0存在该地址
 0x0fd0
 0x0fd4
 0x0fd8
-0x0fdc  #0      8. str     wzr, [sp, #44] //清0，c_l2
+0x0fdc  #0      (8). str     wzr, [sp, #44] //清0，c_l2
 !!!!!!          _start的stack frame，跳至callee1时sp为0x0fe0
-0x0fe0  x29_l   1. stp     x29, x30, [sp, #-32]!  //存上一个caller的fp,lr sp变为0x0fe0
+0x0fe0  x29_l   (1). stp     x29, x30, [sp, #-32]!  //存上一个caller的fp,lr sp变为0x0fe0
 0x0fe4  x29_h
 0x0fe8  x30_l
 0x0fec  x30_h
 0x0ff0
-0x0ff4  #2      4. mov     w0, #0x2
+0x0ff4  #2      (4). mov     w0, #0x2
                    str     w0, [sp, #20]  //设2，b_l1
-0x0ff8  #1      3. mov     w0, #0x1
+0x0ff8  #1      (3). mov     w0, #0x1
                    str     w0, [sp, #24]  //设1，a_l1
-0x0ffc  #0      2. str     wzr, [sp, #28] //清0，对应c中的变量c_l1
+0x0ffc  #0      (2). str     wzr, [sp, #28] //清0，对应c中的变量c_l1
 0x1000
 !!!!!!
 ```  
@@ -165,7 +165,10 @@ void _start(void)
 1. 上面每个stack frame最多分为三个块，fp，lr一个，本地变量一个，参数一个  
 2. 这几个块都会根据自身大小申请16B对齐的一个空间，具体看callee1为啥占用了48B  
 3. 每个块都按照stack的习惯，先从高地址开始存数据  
-4. 为了分割这几个区，会有一些空间浪费  
+4. 这几个块都有对齐要求（16B in aarch64），会有一些空间浪费  
+
+注1：上面的x29_l，x29_h，x30_l，x30_h只表示它占用8B，具体排布要看大小端设定。  
+注2：stack中填充步骤加了圆括号+数字对应汇编中的顺序。  
 
 &emsp;&emsp;aarch32的汇编也贴出来做个比较，有兴趣的可以自己还原下。  
 ```sass
