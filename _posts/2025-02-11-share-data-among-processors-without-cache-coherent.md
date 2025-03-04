@@ -24,6 +24,9 @@ lang: zh
   2. B填充data到buffer；  
   3. A拿到buffer的start address和size后，先进行cache invalidate操作，这样A就可以拿到B送过来的数据了；  
 
+  注1：A刷cache参数为虚拟地址，送给B的参数为物理地址。  
+  注2：A除非以scatter list的形式送地址参数给B，否则物理地址应连续。  
+
 ## Summary
 &emsp;&emsp;实际上上面的例子是具有普遍性的，比如ACPU送data给DSP/GPU/DPU等处理音视频数据，处理完以后把data拿回来再做其他操作。  
 &emsp;&emsp;上面的操作步骤不能省略，不然容易出问题，而且还是不容易debug的奇怪问题。  
