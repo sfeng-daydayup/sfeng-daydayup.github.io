@@ -51,6 +51,7 @@ pin: true
 &emsp;&emsp;[Root of Trust](https://sfeng-daydayup.github.io/posts/root-of-trust/)  
 &emsp;&emsp;[RPMB](https://sfeng-daydayup.github.io/posts/rpmb/)  
 &emsp;&emsp;[Harm of Dead Store Elimination](https://sfeng-daydayup.github.io/posts/harm-of-dead-store-elimination/)  
+&emsp;&emsp;[ECC study](https://sfeng-daydayup.github.io/posts/ecc-study/)  
 
 ## Boot
 &emsp;&emsp;[boot up of U-boot](https://sfeng-daydayup.github.io/posts/boot-up-of-u-boot/)  
