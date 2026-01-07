@@ -16,7 +16,7 @@ This part focuses on comparing **JTAG and SWD**, describing **standard connector
 
 ## 1. JTAG vs SWD
 
-## 1.1 JTAG (IEEE 1149.1)
+### 1.1 JTAG (IEEE 1149.1)
 
 JTAG is a **multi-wire debug and test interface** widely used on Cortex-A and complex SoCs.
 
@@ -167,3 +167,4 @@ Reliable JTAG/SWD debugging depends on proper **PCB design** and signal routing.
 
 Proper interface selection and thoughtful board design are critical for **high-performance and stable debug operations**.
 
+---
