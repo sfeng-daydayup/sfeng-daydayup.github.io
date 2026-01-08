@@ -72,7 +72,7 @@ In a **daisy chain** configuration, all JTAG devices are connected serially. The
 A **star chain**, also known as a **switch-based JTAG architecture**, uses a JTAG switch, hub, or multiplexer to selectively connect the JTAG master to individual devices or sub-chains.
 
 
-   ![Desktop View](/assets/img/jtag/jtag-switch-chain.png){: .normal }
+   ![Desktop View](/assets/img/jtag/jtag-switch-chain.jpg){: .normal }
 
 
 Only one device or branch is active at a given time.
