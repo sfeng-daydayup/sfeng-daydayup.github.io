@@ -1,7 +1,7 @@
 ---
 layout: post
 title: JTAG Scan Chain
-date: 2026-01-06 18:52 +0800
+date: 2026-01-06 19:58 +0800
 author: sfeng
 categories: [JTAG Debugging Fundamentals]
 tags: [JTAG]
