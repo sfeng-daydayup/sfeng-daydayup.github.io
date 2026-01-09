@@ -133,46 +133,7 @@ JTAG and debug enable signals are usually configured differently at each **lifec
 
 ## Visual Diagram: JTAG Access Gated by Debug Enable Signals
 
-```mermaid
-flowchart TD
-    %% JTAG entry
-    JTAG[JTAG Debug Interface] --> DAP[Debug Access Port (DAP)]
-
-    %% Domains
-    DAP --> NS[Non-Secure Domain]
-    DAP --> S[Secure Domain]
-
-    %% Non-Secure Resources
-    NS --> NS_Reg[Registers (Core Debug)]
-    NS --> NS_Mem[Memory (AHB-AP)]
-    NS --> NS_Trace[Trace (ETM/PTM)]
-
-    %% Secure Resources
-    S --> S_Reg[Registers (Core Debug)]
-    S --> S_Mem[Memory (AHB-AP)]
-    S --> S_Trace[Trace (ETM/PTM)]
-
-    %% Access Signals - Non-Secure
-    NS_Reg -->|DBGEN (+ nIDEN for invasive)| NS_Reg_Access[Access Allowed]
-    NS_Mem -->|DBGEN + nIDEN| NS_Mem_Access[Access Allowed]
-    NS_Trace -->|DBGEN| NS_Trace_Access[Access Allowed]
-
-    %% Access Signals - Secure
-    S_Reg -->|SPIDEN| S_Reg_Access[Access Allowed]
-    S_Mem -->|SPIDEN + nIDEN| S_Mem_Access[Access Allowed]
-    S_Trace -->|SPNIDEN| S_Trace_Access[Access Allowed]
-
-    %% Styling to show invasive vs non-invasive
-    classDef invasive fill:#f9d5d3,stroke:#e06c75,stroke-width:2px;
-    classDef noninvasive fill:#d3f9d8,stroke:#50a14f,stroke-width:2px;
-
-    class NS_Reg_Access,NS_Mem_Access,S_Reg_Access,S_Mem_Access invasive;
-    class NS_Trace_Access,S_Trace_Access noninvasive;
-
-    %% Notes
-    note1([Invasive: Registers/Memory]):::invasive
-    note2([Non-Invasive: Trace Only]):::noninvasive
-```
+   ![Desktop View](/assets/img/jtag/jtag-debug-access-rule.png){: .normal }
 
 ---
 
