@@ -84,10 +84,15 @@ Info : JTAG tap: soc.tap1 tap/device found: 0x4ba06477 (mfg: 0x23b (ARM Ltd), pa
 &emsp;&emsp;By the way, 为啥两个TAP ID Code是一样的? 答案在这里:
 
 > The IDCODE 0x4ba06477 is the "fingerprint" for a standard ARM CoreSight Debug Port (DP).
+
 >   0x4: Version/Revision
+
 >   0xba06: Part Number (Standard ARM DP)
+
 >   0x23b: Designer (ARM Ltd)
+
 >   0x1: Always 1 for JTAG IDCODEs
+
 {: .prompt-info } 
 
 ---
