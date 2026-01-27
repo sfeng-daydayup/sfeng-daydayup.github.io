@@ -404,7 +404,7 @@ xPSR: 0x61000000 pc: 0x10000c0c psp: 0x30003350
 
 ## CA55
 
-&emsp;&emsp;A core则会复杂一些,除了前面提到的adiv6,因为SMP的缘故,还有CTI(Cross Trigger Interface)需要注意.CTI相关如下:
+&emsp;&emsp;在ROM Table里还发现了两个CA55的processor. A core会复杂一些,除了前面提到的adiv6,因为SMP的缘故,还有CTI(Cross Trigger Interface)需要注意.CTI相关如下:
 
 - Each CA55 has an associated CTI
 - Required for:
